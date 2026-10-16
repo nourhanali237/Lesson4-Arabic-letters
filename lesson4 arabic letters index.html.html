@@ -1,0 +1,6576 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Qur'an Explorer - Mission 4</title>
+
+<link rel="stylesheet" href="bubo/bubo.css">
+
+<style>
+
+/* =========================================================
+   GLOBAL
+========================================================= */
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+
+    overflow:hidden;
+
+    font-family:
+        "Trebuchet MS",
+        Arial,
+        sans-serif;
+
+    color:#173b43;
+
+    background:#dff7f5;
+}
+
+.lesson{
+
+    width:100vw;
+    height:100vh;
+
+    position:relative;
+}
+
+
+/* =========================================================
+   SLIDES
+========================================================= */
+
+.slide{
+
+    display:none;
+
+    position:absolute;
+    inset:0;
+
+    width:100%;
+    height:100%;
+
+    padding:45px 7%;
+
+    overflow:hidden;
+
+    background:
+
+        radial-gradient(
+            circle at 15% 18%,
+            rgba(255,255,255,.75) 0 3px,
+            transparent 4px
+        ),
+
+        radial-gradient(
+            circle at 82% 12%,
+            rgba(255,255,255,.6) 0 2px,
+            transparent 3px
+        ),
+
+        radial-gradient(
+            circle at 25% 80%,
+            rgba(255,255,255,.55) 0 2px,
+            transparent 3px
+        ),
+
+        radial-gradient(
+            circle at 75% 65%,
+            rgba(255,255,255,.5) 0 3px,
+            transparent 4px
+        ),
+
+        linear-gradient(
+            135deg,
+            #dff7f5,
+            #d7f0f7,
+            #e5f7ef,
+            #dff4f8
+        );
+
+    background-size:
+        200% 200%,
+        200% 200%,
+        200% 200%,
+        200% 200%,
+        300% 300%;
+
+    animation:
+        oceanDrift 25s ease-in-out infinite;
+}
+
+.slide.active{
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    animation:
+        slideIn .65s cubic-bezier(.2,.8,.2,1);
+}
+
+
+/* =========================================================
+   OCEAN FLOATING GLOWS
+========================================================= */
+
+.slide::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:500px;
+    height:500px;
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(44,190,190,.28),
+            rgba(80,160,210,.15) 55%,
+            transparent 75%
+        );
+
+    filter:blur(5px);
+
+    top:-220px;
+    left:-170px;
+
+    animation:
+        oceanFloat 15s ease-in-out infinite;
+
+    pointer-events:none;
+}
+
+.slide::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:450px;
+    height:450px;
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(55,180,170,.22),
+            rgba(90,160,210,.15) 55%,
+            transparent 75%
+        );
+
+    filter:blur(5px);
+
+    bottom:-190px;
+    right:-160px;
+
+    animation:
+        oceanFloat2 18s ease-in-out infinite;
+
+    pointer-events:none;
+}
+
+@keyframes oceanDrift{
+
+    0%,100%{
+        background-position:
+            0% 0%,
+            0% 0%,
+            0% 0%,
+            0% 0%,
+            0% 50%;
+    }
+
+    50%{
+        background-position:
+            12% 8%,
+            -8% 10%,
+            8% -6%,
+            -7% -8%,
+            100% 50%;
+    }
+}
+
+@keyframes oceanFloat{
+
+    0%,100%{
+        transform:
+            translate(0,0)
+            scale(1)
+            rotate(0);
+    }
+
+    50%{
+        transform:
+            translate(70px,45px)
+            scale(1.15)
+            rotate(8deg);
+    }
+}
+
+@keyframes oceanFloat2{
+
+    0%,100%{
+        transform:
+            translate(0,0)
+            scale(1);
+    }
+
+    50%{
+        transform:
+            translate(-55px,-40px)
+            scale(1.12);
+    }
+}
+
+
+/* =========================================================
+   SLIDE TRANSITION
+========================================================= */
+
+@keyframes slideIn{
+
+    from{
+
+        opacity:0;
+
+        transform:
+            translateX(35px)
+            scale(.98);
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:
+            translateX(0)
+            scale(1);
+    }
+}
+
+
+/* =========================================================
+   DECORATIONS
+========================================================= */
+
+.ocean-star{
+
+    position:absolute;
+
+    opacity:.55;
+
+    font-size:25px;
+
+    animation:
+        floatOceanStar 4s ease-in-out infinite;
+}
+
+.os1{
+    top:13%;
+    left:8%;
+}
+
+.os2{
+    top:18%;
+    right:10%;
+    animation-delay:1s;
+}
+
+.os3{
+    bottom:17%;
+    left:14%;
+    animation-delay:2s;
+}
+
+.os4{
+    bottom:14%;
+    right:15%;
+    animation-delay:3s;
+}
+
+@keyframes floatOceanStar{
+
+    0%,100%{
+        transform:
+            translateY(0)
+            rotate(0);
+    }
+
+    50%{
+        transform:
+            translateY(-13px)
+            rotate(15deg);
+    }
+}
+
+
+/* =========================================================
+   BUBBLES
+========================================================= */
+
+.bubble{
+
+    position:absolute;
+
+    bottom:-80px;
+
+    border-radius:50%;
+
+    background:
+        rgba(255,255,255,.38);
+
+    border:
+        2px solid rgba(255,255,255,.55);
+
+    animation:
+        bubbleRise 7s linear infinite;
+
+    pointer-events:none;
+}
+
+.b1{
+    left:8%;
+    width:24px;
+    height:24px;
+    animation-delay:0s;
+}
+
+.b2{
+    left:22%;
+    width:14px;
+    height:14px;
+    animation-delay:2s;
+}
+
+.b3{
+    left:48%;
+    width:30px;
+    height:30px;
+    animation-delay:1s;
+}
+
+.b4{
+    left:70%;
+    width:18px;
+    height:18px;
+    animation-delay:3s;
+}
+
+.b5{
+    left:88%;
+    width:25px;
+    height:25px;
+    animation-delay:4s;
+}
+
+@keyframes bubbleRise{
+
+    0%{
+        transform:
+            translateY(0)
+            scale(.7);
+
+        opacity:0;
+    }
+
+    15%{
+        opacity:.8;
+    }
+
+    100%{
+        transform:
+            translateY(-115vh)
+            scale(1.2);
+
+        opacity:0;
+    }
+}
+
+
+/* =========================================================
+   TEXT
+========================================================= */
+
+.kicker{
+
+    font-size:15px;
+
+    letter-spacing:3px;
+
+    text-transform:uppercase;
+
+    opacity:.55;
+
+    margin-bottom:14px;
+
+    position:relative;
+
+    z-index:2;
+}
+
+h1{
+
+    font-size:
+        clamp(40px,6vw,75px);
+
+    text-align:center;
+
+    line-height:1.1;
+
+    margin-bottom:20px;
+
+    position:relative;
+
+    z-index:2;
+}
+
+h2{
+
+    font-size:
+        clamp(30px,4vw,52px);
+
+    text-align:center;
+
+    margin-bottom:20px;
+
+    position:relative;
+
+    z-index:2;
+}
+
+.subtitle{
+
+    font-size:20px;
+
+    text-align:center;
+
+    line-height:1.6;
+
+    max-width:900px;
+
+    position:relative;
+
+    z-index:2;
+}
+
+.question{
+
+    color:#087f83;
+
+    font-weight:bold;
+
+    font-size:22px;
+
+    margin:18px 0;
+
+    max-width:950px;
+
+    text-align:center;
+
+    line-height:1.5;
+
+    position:relative;
+
+    z-index:3;
+}
+
+.nowrap-line{
+
+    white-space:nowrap;
+
+    font-size:clamp(22px,5vw,70px);
+
+    display:inline-block;
+}
+
+.arabic{
+
+    direction:rtl;
+
+    font-family:
+        Arial,
+        Tahoma,
+        sans-serif;
+}
+
+
+/* =========================================================
+   BUTTON
+========================================================= */
+
+.primary-btn{
+
+    border:none;
+
+    border-radius:50px;
+
+    padding:16px 34px;
+
+    margin-top:28px;
+
+    background:#087f83;
+
+    color:white;
+
+    font-size:18px;
+
+    cursor:pointer;
+
+    overflow:hidden;
+
+    box-shadow:
+        0 7px 0 #04575b;
+
+    transition:.2s;
+
+    position:relative;
+
+    z-index:3;
+}
+
+.primary-btn::after{
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+    left:-75%;
+
+    width:50%;
+    height:100%;
+
+    background:
+        linear-gradient(
+            120deg,
+            transparent,
+            rgba(255,255,255,.4),
+            transparent
+        );
+
+    transform:skewX(-20deg);
+}
+
+.primary-btn:hover::after{
+
+    animation:shine 1s ease;
+}
+
+@keyframes shine{
+
+    from{
+        left:-75%;
+    }
+
+    to{
+        left:125%;
+    }
+}
+
+.primary-btn:hover{
+
+    transform:
+        translateY(-4px);
+}
+
+.primary-btn:active{
+
+    transform:
+        translateY(3px);
+
+    box-shadow:
+        0 3px 0 #04575b;
+}
+
+
+/* =========================================================
+   TEACHER
+========================================================= */
+
+.teacher-name{
+
+    position:absolute;
+
+    left:32px;
+    bottom:24px;
+
+    font-size:15px;
+
+    font-weight:bold;
+
+    opacity:.65;
+
+    z-index:50;
+}
+
+.slide:first-child .teacher-name,
+.slide:last-child .teacher-name{
+
+    left:45.5%;
+
+    transform:
+        translateX(-50%);
+
+    bottom:38px;
+
+    font-size:18px;
+}
+
+
+/* =========================================================
+   FAMILY CARDS
+========================================================= */
+
+.family{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:22px;
+
+    flex-wrap:wrap;
+
+    margin-top:20px;
+
+    position:relative;
+
+    z-index:3;
+}
+
+.family-card{
+
+    width:175px;
+    height:225px;
+
+    background:
+        rgba(255,255,255,.94);
+
+    border-radius:30px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    box-shadow:
+        0 12px 35px rgba(0,80,100,.10);
+
+    transition:
+        transform .35s,
+        box-shadow .35s;
+
+    border:
+        2px solid rgba(20,150,160,.08);
+}
+
+.family-card:hover{
+
+    transform:
+        translateY(-10px)
+        rotate(-2deg);
+
+    box-shadow:
+        0 20px 45px rgba(0,130,140,.22);
+}
+
+.family-letter{
+
+    font-size:125px;
+
+    line-height:1;
+
+    animation:
+        letterGlow 2.6s ease-in-out infinite;
+}
+
+.family-name{
+
+    font-size:20px;
+
+    font-weight:bold;
+
+    margin-top:8px;
+}
+
+.dot-info{
+
+    margin-top:5px;
+
+    opacity:.65;
+}
+
+
+/* =========================================================
+   LETTER CARD
+========================================================= */
+
+.letter-card{
+
+    width:260px;
+
+    min-height:290px;
+
+    background:
+        rgba(255,255,255,.96);
+
+    border-radius:35px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    box-shadow:
+        0 15px 40px rgba(0,80,100,.11);
+
+    position:relative;
+
+    z-index:3;
+
+    transition:
+        transform .35s,
+        box-shadow .35s;
+
+    border:
+        2px solid rgba(20,150,160,.08);
+}
+
+.letter-card:hover{
+
+    transform:
+        translateY(-8px);
+
+    box-shadow:
+        0 22px 50px rgba(0,130,140,.22);
+}
+
+.big-letter{
+
+    font-size:175px;
+
+    line-height:1;
+
+    animation:
+        letterGlow 2.6s ease-in-out infinite;
+}
+
+@keyframes letterGlow{
+
+    0%,100%{
+
+        text-shadow:
+            0 0 0 rgba(20,160,170,0);
+    }
+
+    50%{
+
+        text-shadow:
+            0 0 28px rgba(20,170,180,.38),
+            0 0 50px rgba(50,130,210,.18);
+    }
+}
+
+.letter-title{
+
+    font-size:28px;
+
+    font-weight:bold;
+
+    margin-top:5px;
+}
+
+
+/* =========================================================
+   DISCOVERY CARD
+========================================================= */
+
+.discovery-card{
+
+    width:min(1000px,92vw);
+
+    background:
+        rgba(255,255,255,.95);
+
+    border-radius:35px;
+
+    padding:30px 40px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:45px;
+
+    box-shadow:
+        0 15px 45px rgba(0,70,90,.09);
+
+    position:relative;
+
+    z-index:3;
+
+    transition:.35s;
+}
+
+.discovery-card:hover{
+
+    transform:
+        translateY(-6px);
+
+    box-shadow:
+        0 20px 50px rgba(0,130,140,.20);
+}
+
+.discovery-letter{
+
+    min-width:250px;
+
+    text-align:center;
+}
+
+.discovery-letter .big-letter{
+
+    font-size:170px;
+}
+
+.discovery-text{
+
+    flex:1;
+}
+
+.discovery-text h3{
+
+    font-size:29px;
+
+    margin-bottom:12px;
+}
+
+.discovery-text p{
+
+    font-size:19px;
+
+    line-height:1.6;
+}
+
+
+/* =========================================================
+   ENGLISH CONNECTION
+========================================================= */
+
+.english-card{
+
+    width:min(900px,92vw);
+
+    background:
+        rgba(255,255,255,.96);
+
+    border-radius:35px;
+
+    padding:32px;
+
+    text-align:center;
+
+    box-shadow:
+        0 15px 40px rgba(0,70,90,.09);
+
+    position:relative;
+
+    z-index:3;
+
+    transition:.35s;
+}
+
+.english-card:hover{
+
+    transform:
+        translateY(-6px);
+
+    box-shadow:
+        0 20px 50px rgba(0,130,140,.20);
+}
+
+.english-word{
+
+    font-size:42px;
+
+    font-weight:bold;
+
+    color:#087f83;
+
+    margin:15px;
+}
+
+.sound{
+
+    font-size:25px;
+
+    color:#d56d35;
+
+    font-weight:bold;
+}
+
+
+/* =========================================================
+   DOT VISUAL
+========================================================= */
+
+.dot-display{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:50px;
+
+    margin:20px;
+
+    position:relative;
+
+    z-index:3;
+}
+
+.dot-letter{
+
+    font-size:130px;
+
+    position:relative;
+
+    animation:
+        gentleFloat 2.5s ease-in-out infinite;
+}
+
+.dot-label{
+
+    font-size:20px;
+
+    font-weight:bold;
+}
+
+@keyframes gentleFloat{
+
+    0%,100%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-8px);
+    }
+}
+
+
+/* =========================================================
+   WHALE VISUAL
+========================================================= */
+
+.whale{
+
+    width:260px;
+    height:150px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #5d9fba,
+            #397d99
+        );
+
+    border-radius:
+        55% 48% 45% 55%;
+
+    position:relative;
+
+    box-shadow:
+        0 15px 35px rgba(20,100,130,.22);
+
+    animation:
+        whaleFloat 3s ease-in-out infinite;
+}
+
+.whale::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:38px;
+    height:38px;
+
+    background:#fff;
+
+    border-radius:50%;
+
+    top:35px;
+    right:45px;
+}
+
+.whale::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:15px;
+    height:15px;
+
+    background:#173b43;
+
+    border-radius:50%;
+
+    top:48px;
+    right:57px;
+}
+
+.whale-tail{
+
+    position:absolute;
+
+    left:-55px;
+    top:35px;
+
+    width:75px;
+    height:75px;
+
+    background:#397d99;
+
+    clip-path:
+        polygon(
+            100% 50%,
+            30% 0%,
+            0% 25%,
+            35% 50%,
+            0% 75%,
+            30% 100%
+        );
+}
+
+.whale-fin{
+
+    position:absolute;
+
+    bottom:-20px;
+    left:100px;
+
+    width:65px;
+    height:45px;
+
+    background:#397d99;
+
+    border-radius:
+        0 0 70% 70%;
+
+    transform:
+        rotate(15deg);
+}
+
+.water-spout{
+
+    position:absolute;
+
+    top:-70px;
+    right:55px;
+
+    font-size:50px;
+
+    animation:
+        spout 1.8s ease-in-out infinite;
+}
+
+@keyframes whaleFloat{
+
+    0%,100%{
+        transform:
+            translateY(0)
+            rotate(-1deg);
+    }
+
+    50%{
+        transform:
+            translateY(-10px)
+            rotate(1deg);
+    }
+}
+
+@keyframes spout{
+
+    0%,100%{
+        transform:
+            translateY(8px)
+            scale(.8);
+
+        opacity:.5;
+    }
+
+    50%{
+        transform:
+            translateY(-5px)
+            scale(1.1);
+
+        opacity:1;
+    }
+}
+
+
+/* =========================================================
+   GAME AREA
+========================================================= */
+
+.game-area{
+
+    width:min(1000px,92vw);
+
+    background:
+        rgba(255,255,255,.96);
+
+    border-radius:35px;
+
+    padding:30px;
+
+    box-shadow:
+        0 15px 45px rgba(0,70,90,.09);
+
+    text-align:center;
+
+    position:relative;
+
+    z-index:3;
+
+    transition:.35s;
+}
+
+.game-area:hover{
+
+    box-shadow:
+        0 20px 50px rgba(0,130,140,.18);
+}
+
+.options{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:20px;
+
+    flex-wrap:wrap;
+
+    margin-top:20px;
+}
+
+.option{
+
+    width:145px;
+    height:125px;
+
+    border:none;
+
+    border-radius:28px;
+
+    background:#eef9f8;
+
+    font-size:72px;
+
+    cursor:pointer;
+
+    box-shadow:
+        0 8px 25px rgba(0,70,90,.08);
+
+    transition:.2s;
+
+    color:#173b43;
+}
+
+.option:hover{
+
+    transform:
+        translateY(-7px)
+        scale(1.04);
+}
+
+.correct{
+
+    animation:
+        correctGlow .8s ease;
+
+    box-shadow:
+        0 0 0 6px rgba(60,180,150,.35),
+        0 8px 25px rgba(0,70,90,.08);
+}
+
+@keyframes correctGlow{
+
+    0%{
+        transform:scale(1);
+    }
+
+    35%{
+        transform:
+            scale(1.18)
+            rotate(-3deg);
+    }
+
+    65%{
+        transform:
+            scale(.96)
+            rotate(3deg);
+    }
+
+    100%{
+        transform:scale(1);
+    }
+}
+
+.wrong{
+
+    animation:
+        wrongShake .5s ease;
+
+    box-shadow:
+        0 0 0 6px rgba(220,100,90,.30),
+        0 8px 25px rgba(0,70,90,.08);
+}
+
+@keyframes wrongShake{
+
+    0%,100%{
+        transform:translateX(0);
+    }
+
+    20%{
+        transform:translateX(-8px);
+    }
+
+    40%{
+        transform:translateX(8px);
+    }
+
+    60%{
+        transform:translateX(-5px);
+    }
+
+    80%{
+        transform:translateX(5px);
+    }
+}
+
+.feedback{
+
+    min-height:38px;
+
+    margin-top:18px;
+
+    font-size:20px;
+
+    font-weight:bold;
+}
+
+
+/* =========================================================
+   SORT GAME
+========================================================= */
+
+.sort-zone{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:15px;
+
+    margin-top:25px;
+}
+
+.sort-item{
+
+    width:125px;
+    height:120px;
+
+    border:none;
+
+    border-radius:25px;
+
+    background:#eef9f8;
+
+    font-size:70px;
+
+    cursor:pointer;
+
+    transition:.25s;
+}
+
+.sort-item.selected{
+
+    transform:
+        translateY(-8px)
+        scale(1.05);
+
+    background:#ccefed;
+}
+
+
+/* =========================================================
+   MEMORY
+========================================================= */
+
+.memory-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,120px);
+
+    gap:16px;
+
+    justify-content:center;
+
+    margin-top:25px;
+}
+
+.memory-tile{
+
+    width:120px;
+    height:110px;
+
+    border:none;
+
+    background:transparent;
+
+    cursor:pointer;
+
+    perspective:600px;
+
+    padding:0;
+}
+
+.tile-inner{
+
+    position:relative;
+
+    width:100%;
+    height:100%;
+
+    transform-style:preserve-3d;
+
+    transition:
+        transform .5s
+        cubic-bezier(.2,.8,.2,1);
+}
+
+.memory-tile.revealed .tile-inner{
+
+    transform:
+        rotateY(180deg);
+}
+
+.tile-face{
+
+    position:absolute;
+    inset:0;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border-radius:25px;
+
+    backface-visibility:hidden;
+
+    font-weight:bold;
+}
+
+.tile-front{
+
+    background:#087f83;
+
+    color:white;
+
+    font-size:34px;
+
+    box-shadow:
+        0 7px 0 #04575b;
+}
+
+.tile-back{
+
+    background:#eef9f8;
+
+    color:#173b43;
+
+    font-size:42px;
+
+    direction:rtl;
+
+    transform:
+        rotateY(180deg);
+}
+
+.memory-tile.matched .tile-back{
+
+    background:#e5f8ee;
+
+    box-shadow:
+        0 0 0 4px rgba(60,180,150,.35);
+}
+
+
+/* =========================================================
+   WHALE CATCHER GAME
+========================================================= */
+
+.ocean-game{
+
+    width:min(1000px,92vw);
+
+    height:350px;
+
+    border-radius:35px;
+
+    position:relative;
+
+    overflow:hidden;
+
+    background:
+        linear-gradient(
+            to bottom,
+            #bceff1 0%,
+            #77cbd3 45%,
+            #3f9bab 100%
+        );
+
+    box-shadow:
+        0 18px 45px rgba(20,100,130,.20);
+
+    z-index:3;
+}
+
+.ocean-game::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+    left:0;
+
+    width:100%;
+    height:60px;
+
+    background:
+        rgba(255,255,255,.18);
+
+    animation:
+        waterMove 4s linear infinite;
+}
+
+@keyframes waterMove{
+
+    0%{
+        transform:translateX(-30px);
+    }
+
+    50%{
+        transform:translateX(30px);
+    }
+
+    100%{
+        transform:translateX(-30px);
+    }
+}
+
+.ocean-letter{
+
+    position:absolute;
+
+    width:105px;
+    height:105px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:
+        rgba(255,255,255,.92);
+
+    font-size:62px;
+
+    color:#173b43;
+
+    cursor:pointer;
+
+    box-shadow:
+        0 10px 25px rgba(0,60,80,.16);
+
+    transition:.25s;
+
+    z-index:4;
+}
+
+.ocean-letter:hover{
+
+    transform:
+        scale(1.12);
+}
+
+.ocean-letter.one{
+    left:12%;
+    top:95px;
+}
+
+.ocean-letter.two{
+    left:35%;
+    top:210px;
+}
+
+.ocean-letter.three{
+    left:60%;
+    top:85px;
+}
+
+.ocean-letter.four{
+    left:80%;
+    top:210px;
+}
+
+.whale-catcher{
+
+    position:absolute;
+
+    left:50%;
+
+    bottom:15px;
+
+    transform:
+        translateX(-50%);
+
+    font-size:48px;
+
+    z-index:5;
+
+    pointer-events:none;
+}
+
+
+/* =========================================================
+   QUICK GRID
+========================================================= */
+
+.letter-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap:15px;
+
+    max-width:760px;
+
+    margin:20px auto;
+}
+
+.grid-letter{
+
+    height:105px;
+
+    border:none;
+
+    border-radius:25px;
+
+    background:#eef9f8;
+
+    font-size:65px;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+    color:#173b43;
+}
+
+.grid-letter:hover{
+
+    transform:
+        scale(1.05);
+}
+
+
+/* =========================================================
+   BUBO POSITION
+========================================================= */
+
+#bubo-container{
+
+    position:fixed;
+
+    left:clamp(10px,3vw,50px);
+
+    top:50%;
+
+    transform:
+        translateY(-50%);
+
+    z-index:9999;
+}
+
+#bubo-celebrate-container{
+
+    position:fixed;
+
+    right:clamp(10px,6vw,70px);
+
+    bottom:100px;
+
+    z-index:10000;
+
+    opacity:0;
+
+    transform:
+        scale(.35)
+        translateY(40px);
+
+    pointer-events:none;
+
+    transition:
+        opacity .45s ease,
+        transform .6s cubic-bezier(.2,1.5,.4,1);
+}
+
+#bubo-celebrate-container.show{
+
+    opacity:1;
+
+    transform:
+        scale(1)
+        translateY(0);
+
+    animation:
+        buboBounce 1.1s ease-in-out .6s 2;
+}
+
+@keyframes buboBounce{
+
+    0%,100%{
+        transform:
+            scale(1)
+            translateY(0);
+    }
+
+    30%{
+        transform:
+            scale(1.08)
+            translateY(-10px);
+    }
+
+    60%{
+        transform:
+            scale(.97)
+            translateY(2px);
+    }
+}
+
+
+/* =========================================================
+   STAR COUNTER
+========================================================= */
+
+.star-counter{
+
+    position:fixed;
+
+    top:20px;
+
+    left:50%;
+
+    transform:
+        translateX(-50%);
+
+    background:white;
+
+    padding:8px 22px;
+
+    border-radius:30px;
+
+    font-weight:bold;
+
+    font-size:18px;
+
+    box-shadow:
+        0 8px 20px rgba(0,60,80,.12);
+
+    z-index:500;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:6px;
+}
+
+
+/* =========================================================
+   BALLOONS
+========================================================= */
+
+.balloon{
+
+    position:fixed;
+
+    bottom:-150px;
+
+    width:60px;
+    height:75px;
+
+    border-radius:
+        50% 50% 50% 50% /
+        60% 60% 40% 40%;
+
+    z-index:9998;
+
+    pointer-events:none;
+
+    animation:
+        balloonRise 3.5s ease-in forwards;
+}
+
+.balloon::after{
+
+    content:"";
+
+    position:absolute;
+
+    bottom:-30px;
+
+    left:50%;
+
+    width:2px;
+    height:30px;
+
+    background:
+        rgba(0,0,0,.25);
+
+    transform:
+        translateX(-50%);
+}
+
+@keyframes balloonRise{
+
+    0%{
+        transform:
+            translateY(0)
+            rotate(0);
+
+        opacity:1;
+    }
+
+    100%{
+        transform:
+            translateY(-120vh)
+            rotate(15deg);
+
+        opacity:0;
+    }
+}
+
+
+/* =========================================================
+   CELEBRATION
+========================================================= */
+
+.celebration{
+
+    position:fixed;
+
+    top:-80px;
+
+    font-size:38px;
+
+    z-index:10001;
+
+    pointer-events:none;
+
+    animation:
+        fallCelebrate 3.5s ease-in forwards;
+}
+
+@keyframes fallCelebrate{
+
+    0%{
+
+        transform:
+            translateY(0)
+            rotate(0);
+
+        opacity:1;
+    }
+
+    100%{
+
+        transform:
+            translateY(115vh)
+            rotate(360deg);
+
+        opacity:0;
+    }
+}
+
+
+/* =========================================================
+   PROGRESS
+========================================================= */
+
+.progress{
+
+    position:fixed;
+
+    left:50%;
+
+    bottom:17px;
+
+    transform:
+        translateX(-50%);
+
+    width:230px;
+
+    height:8px;
+
+    background:
+        rgba(255,255,255,.8);
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+    z-index:100;
+}
+
+.progress-bar{
+
+    height:100%;
+
+    width:0%;
+
+    border-radius:20px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #087f83,
+            #39aeb0,
+            #e6b75f
+        );
+
+    transition:.4s;
+
+    position:relative;
+
+    overflow:hidden;
+}
+
+.progress-bar::after{
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+    left:0;
+
+    width:40px;
+    height:100%;
+
+    background:
+        linear-gradient(
+            120deg,
+            transparent,
+            rgba(255,255,255,.65),
+            transparent
+        );
+
+    animation:
+        shimmer 2s linear infinite;
+}
+
+@keyframes shimmer{
+
+    0%{
+        transform:
+            translateX(-40px);
+    }
+
+    100%{
+        transform:
+            translateX(230px);
+    }
+}
+
+
+/* =========================================================
+   NAV
+========================================================= */
+
+.nav{
+
+    position:fixed;
+
+    right:30px;
+
+    bottom:30px;
+
+    display:flex;
+
+    gap:10px;
+
+    z-index:100;
+}
+
+.nav button{
+
+    width:48px;
+    height:48px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:white;
+
+    font-size:22px;
+
+    cursor:pointer;
+
+    color:#173b43;
+
+    box-shadow:
+        0 5px 20px rgba(0,60,80,.12);
+
+    transition:.25s;
+}
+
+.nav button:hover{
+
+    transform:
+        translateY(-4px)
+        scale(1.08);
+
+    background:#087f83;
+
+    color:white;
+
+    box-shadow:
+        0 10px 25px rgba(0,130,140,.30);
+}
+
+
+/* =========================================================
+   STAGGER
+========================================================= */
+
+.slide.active > *{
+
+    opacity:0;
+
+    animation:
+        fadeSlideIn .6s ease forwards;
+}
+
+.slide.active > #bubo-container,
+.slide.active > #bubo-celebrate-container{
+
+    opacity:1;
+
+    animation:none;
+}
+
+.slide.active > *:nth-child(1){
+    animation-delay:.05s;
+}
+
+.slide.active > *:nth-child(2){
+    animation-delay:.15s;
+}
+
+.slide.active > *:nth-child(3){
+    animation-delay:.25s;
+}
+
+.slide.active > *:nth-child(4){
+    animation-delay:.35s;
+}
+
+.slide.active > *:nth-child(5){
+    animation-delay:.45s;
+}
+
+.slide.active > *:nth-child(n+6){
+    animation-delay:.55s;
+}
+
+@keyframes fadeSlideIn{
+
+    from{
+
+        opacity:0;
+
+        transform:
+            translateY(18px);
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:
+            translateY(0);
+    }
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:900px){
+
+    body{
+        overflow:auto;
+    }
+
+    .slide{
+
+        overflow-y:auto;
+
+        padding:
+            85px 6%
+            120px;
+    }
+
+    #bubo-container{
+
+        top:auto;
+
+        bottom:15px;
+
+        transform:
+            scale(.5);
+
+        transform-origin:
+            bottom left;
+    }
+
+    #bubo-celebrate-container{
+
+        right:10px;
+
+        bottom:15px;
+
+        transform:
+            scale(.25)
+            translateY(40px);
+    }
+
+    #bubo-celebrate-container.show{
+
+        transform:
+            scale(.5)
+            translateY(0);
+    }
+
+    .discovery-card{
+
+        flex-direction:column;
+
+        text-align:center;
+
+        gap:10px;
+    }
+
+    .discovery-letter .big-letter{
+
+        font-size:110px;
+    }
+
+    .memory-grid{
+
+        grid-template-columns:
+            repeat(4,75px);
+    }
+
+    .memory-tile{
+
+        width:75px;
+        height:75px;
+    }
+
+    .ocean-game{
+
+        height:300px;
+    }
+}
+
+@media(max-width:700px){
+
+    .family-card{
+
+        width:145px;
+        height:190px;
+    }
+
+    .family-letter{
+
+        font-size:100px;
+    }
+
+    .option{
+
+        width:105px;
+        height:100px;
+
+        font-size:58px;
+    }
+
+    .letter-grid{
+
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+    .ocean-letter{
+
+        width:80px;
+        height:80px;
+
+        font-size:48px;
+    }
+
+    .nav{
+
+        right:15px;
+        bottom:15px;
+    }
+}
+
+
+/* =========================================================
+   QUICK REVIEW SLIDES
+========================================================= */
+
+.review-slide {
+    background:
+        radial-gradient(
+            circle at 20% 20%,
+            rgba(255,255,255,.9),
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            #eaf7f5,
+            #eef3ff,
+            #fff5e8
+        );
+}
+
+
+/* =========================================================
+   REVIEW BADGE
+========================================================= */
+
+.review-badge {
+    display: inline-block;
+
+    padding: 9px 20px;
+
+    border-radius: 30px;
+
+    background: rgba(255,255,255,.8);
+
+    border: 2px solid #7aa6a1;
+
+    color: #466d69;
+
+    font-weight: 800;
+
+    font-size: 14px;
+
+    letter-spacing: 1px;
+
+    margin-bottom: 12px;
+
+    box-shadow:
+        0 8px 20px rgba(50,80,80,.10);
+}
+
+
+/* =========================================================
+   REVIEW TEXT
+========================================================= */
+
+.review-subtitle {
+    font-size: 18px;
+
+    color: #5f6875;
+
+    margin: 8px auto 18px;
+
+    max-width: 650px;
+
+    line-height: 1.6;
+}
+
+
+.review-question {
+    margin: 18px auto;
+
+    padding: 15px 25px;
+
+    max-width: 700px;
+
+    border-radius: 20px;
+
+    background: rgba(255,255,255,.85);
+
+    box-shadow:
+        0 8px 25px rgba(50,60,80,.10);
+
+    font-size: 20px;
+
+    font-weight: 700;
+
+    color: #3f4654;
+}
+
+
+/* =========================================================
+   BUBO REVIEW SPACE
+========================================================= */
+
+.review-bubo-space {
+    min-height: 70px;
+}
+
+
+/* =========================================================
+   REVIEW OPTIONS
+========================================================= */
+
+.review-options {
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 18px;
+
+    flex-wrap: wrap;
+
+    margin: 20px auto;
+}
+
+
+.review-options button {
+    min-width: 130px;
+
+    padding: 16px 25px;
+
+    border: 3px solid #879fd1;
+
+    border-radius: 20px;
+
+    background: white;
+
+    color: #41485a;
+
+    font-size: 30px;
+
+    font-family:
+        "Noto Naskh Arabic",
+        "Amiri",
+        serif;
+
+    cursor: pointer;
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease,
+        background .25s ease;
+}
+
+
+.review-options button:hover {
+    transform:
+        translateY(-6px)
+        scale(1.04);
+
+    box-shadow:
+        0 12px 25px rgba(70,80,120,.18);
+}
+
+
+.review-options button.correct {
+    background: #dff7e7;
+
+    border-color: #54a96d;
+
+    transform:
+        scale(1.08);
+}
+
+
+.review-options button.wrong {
+    background: #ffe4e4;
+
+    border-color: #d87575;
+
+    animation:
+        shakeReview .35s ease;
+}
+
+
+/* =========================================================
+   DOT FAMILY
+========================================================= */
+
+.dot-family {
+    display: flex;
+
+    justify-content: center;
+
+    gap: 25px;
+
+    margin: 15px 0 10px;
+}
+
+
+.dot-letter {
+    width: 110px;
+
+    padding: 12px;
+
+    background: white;
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 8px 20px rgba(50,60,80,.10);
+
+    text-align: center;
+}
+
+
+.dot-letter span {
+    display: block;
+
+    font-family:
+        "Noto Naskh Arabic",
+        "Amiri",
+        serif;
+
+    font-size: 65px;
+
+    line-height: 1;
+}
+
+
+.dot-letter small {
+    color: #687080;
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   MEMORY GAME
+========================================================= */
+
+.memory-question {
+    margin: 20px auto;
+
+    font-size: 25px;
+
+    color: #454c5a;
+}
+
+
+.memory-question strong {
+    display: inline-block;
+
+    margin-left: 8px;
+
+    font-size: 55px;
+
+    font-family:
+        "Noto Naskh Arabic",
+        "Amiri",
+        serif;
+
+    color: #66569b;
+}
+
+
+.memory-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 18px;
+
+    max-width: 650px;
+
+    margin: 15px auto;
+}
+
+
+.memory-grid button {
+    height: 105px;
+
+    border: 3px solid #b9a9d9;
+
+    border-radius: 22px;
+
+    background: white;
+
+    font-family:
+        "Noto Naskh Arabic",
+        "Amiri",
+        serif;
+
+    font-size: 55px;
+
+    color: #51476d;
+
+    cursor: pointer;
+
+    transition:
+        .25s ease;
+
+    box-shadow:
+        0 8px 20px rgba(70,60,100,.10);
+}
+
+
+.memory-grid button:hover {
+    transform:
+        translateY(-7px)
+        rotate(-2deg);
+
+    box-shadow:
+        0 15px 30px rgba(70,60,100,.18);
+}
+
+
+.memory-grid button.correct {
+    background: #dff7e7;
+
+    border-color: #52a56b;
+
+    transform:
+        scale(1.1)
+        rotate(2deg);
+}
+
+
+.memory-grid button.wrong {
+    background: #ffe5e5;
+
+    border-color: #d66d6d;
+
+    animation:
+        shakeReview .35s ease;
+}
+
+
+/* =========================================================
+   FEEDBACK
+========================================================= */
+
+.review-feedback {
+    min-height: 35px;
+
+    margin: 10px auto;
+
+    font-size: 18px;
+
+    font-weight: 800;
+
+    color: #5d6472;
+}
+
+
+.review-next {
+    margin-top: 8px;
+}
+
+
+/* =========================================================
+   ANIMATION
+========================================================= */
+
+@keyframes shakeReview {
+
+    0% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-8px);
+    }
+
+    50% {
+        transform: translateX(8px);
+    }
+
+    75% {
+        transform: translateX(-5px);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .review-options {
+        gap: 10px;
+    }
+
+    .review-options button {
+        min-width: 100px;
+        padding: 12px 18px;
+        font-size: 26px;
+    }
+
+    .memory-grid {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+    .dot-family {
+        gap: 10px;
+    }
+
+    .dot-letter {
+        width: 90px;
+    }
+
+}
+
+/* =========================================================
+   BUBO REVIEW SLIDES
+========================================================= */
+
+.review-slide {
+
+    background:
+        radial-gradient(
+            circle at 15% 15%,
+            rgba(255,255,255,.9),
+            transparent 30%
+        ),
+
+        radial-gradient(
+            circle at 85% 80%,
+            rgba(255,255,255,.7),
+            transparent 30%
+        ),
+
+        linear-gradient(
+            135deg,
+            #e8f6f4,
+            #eef1fb,
+            #fff4e5
+        );
+
+}
+
+
+/* =========================================================
+   REVIEW BADGE
+========================================================= */
+
+.review-badge {
+
+    display: inline-block;
+
+    padding: 9px 20px;
+
+    border-radius: 30px;
+
+    background: rgba(255,255,255,.85);
+
+    border: 2px solid #8aaca8;
+
+    color: #486d69;
+
+    font-size: 14px;
+
+    font-weight: 800;
+
+    letter-spacing: 1px;
+
+    margin-bottom: 12px;
+
+    box-shadow:
+        0 8px 20px rgba(50,70,70,.10);
+
+}
+
+
+/* =========================================================
+   REVIEW SUBTITLE
+========================================================= */
+
+.review-subtitle {
+
+    max-width: 650px;
+
+    margin: 8px auto 20px;
+
+    color: #626b78;
+
+    font-size: 18px;
+
+    line-height: 1.6;
+
+}
+
+
+/* =========================================================
+   QUESTION BOX
+========================================================= */
+
+.review-question {
+
+    max-width: 700px;
+
+    margin: 20px auto;
+
+    padding: 17px 25px;
+
+    border-radius: 22px;
+
+    background: rgba(255,255,255,.88);
+
+    box-shadow:
+        0 10px 25px rgba(60,70,90,.10);
+
+    color: #424a58;
+
+    font-size: 20px;
+
+    font-weight: 700;
+
+}
+
+
+/* =========================================================
+   ANSWER BUTTONS
+========================================================= */
+
+.review-options {
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 18px;
+
+    flex-wrap: wrap;
+
+    margin: 22px auto;
+
+}
+
+
+.review-options button {
+
+    min-width: 130px;
+
+    padding: 15px 24px;
+
+    border: 3px solid #91a5d2;
+
+    border-radius: 20px;
+
+    background: white;
+
+    color: #454b5b;
+
+    font-family:
+        "Noto Naskh Arabic",
+        "Amiri",
+        serif;
+
+    font-size: 30px;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 8px 20px rgba(60,70,100,.10);
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease;
+
+}
+
+
+.review-options button:hover {
+
+    transform:
+        translateY(-6px)
+        scale(1.04);
+
+    box-shadow:
+        0 15px 30px rgba(60,70,100,.17);
+
+}
+
+
+.review-options button.correct {
+
+    background: #e0f7e8;
+
+    border-color: #59a66e;
+
+    transform: scale(1.08);
+
+}
+
+
+.review-options button.wrong {
+
+    background: #ffe4e4;
+
+    border-color: #d57474;
+
+    animation:
+        reviewShake .35s ease;
+
+}
+
+
+/* =========================================================
+   DOT FAMILY
+========================================================= */
+
+.dot-family {
+
+    display: flex;
+
+    justify-content: center;
+
+    gap: 20px;
+
+    margin: 15px auto 20px;
+
+}
+
+
+.dot-letter {
+
+    width: 105px;
+
+    padding: 12px;
+
+    border-radius: 20px;
+
+    background: rgba(255,255,255,.9);
+
+    box-shadow:
+        0 8px 20px rgba(60,70,90,.10);
+
+    text-align: center;
+
+}
+
+
+.dot-letter span {
+
+    display: block;
+
+    font-family:
+        "Noto Naskh Arabic",
+        "Amiri",
+        serif;
+
+    font-size: 60px;
+
+    line-height: 1;
+
+}
+
+
+.dot-letter small {
+
+    color: #69717e;
+
+    font-size: 12px;
+
+    font-weight: 800;
+
+}
+
+
+/* =========================================================
+   MEMORY QUESTION
+========================================================= */
+
+.memory-question {
+
+    margin: 20px auto;
+
+    color: #454c59;
+
+    font-size: 23px;
+
+    font-weight: 700;
+
+}
+
+
+.memory-question strong {
+
+    display: inline-block;
+
+    margin-left: 8px;
+
+    font-family:
+        "Noto Naskh Arabic",
+        "Amiri",
+        serif;
+
+    font-size: 58px;
+
+    color: #66569b;
+
+}
+
+
+/* =========================================================
+   MEMORY GRID
+========================================================= */
+
+.memory-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 18px;
+
+    max-width: 650px;
+
+    margin: 20px auto;
+
+}
+
+
+.memory-grid button {
+
+    height: 105px;
+
+    border: 3px solid #b8aad7;
+
+    border-radius: 22px;
+
+    background: white;
+
+    color: #51476d;
+
+    font-family:
+        "Noto Naskh Arabic",
+        "Amiri",
+        serif;
+
+    font-size: 55px;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 8px 20px rgba(70,60,100,.10);
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease;
+
+}
+
+
+.memory-grid button:hover {
+
+    transform:
+        translateY(-7px)
+        rotate(-2deg);
+
+    box-shadow:
+        0 15px 30px rgba(70,60,100,.18);
+
+}
+
+
+.memory-grid button.correct {
+
+    background: #e0f7e8;
+
+    border-color: #56a66e;
+
+    transform:
+        scale(1.1)
+        rotate(2deg);
+
+}
+
+
+.memory-grid button.wrong {
+
+    background: #ffe4e4;
+
+    border-color: #d57474;
+
+    animation:
+        reviewShake .35s ease;
+
+}
+
+
+/* =========================================================
+   FEEDBACK
+========================================================= */
+
+.review-feedback {
+
+    min-height: 35px;
+
+    margin: 10px auto;
+
+    color: #596170;
+
+    font-size: 18px;
+
+    font-weight: 800;
+
+}
+
+
+/* =========================================================
+   NEXT BUTTON
+========================================================= */
+
+.review-next {
+
+    margin-top: 8px;
+
+}
+
+
+/* =========================================================
+   SHAKE EFFECT
+========================================================= */
+
+@keyframes reviewShake {
+
+    0% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-8px);
+    }
+
+    50% {
+        transform: translateX(8px);
+    }
+
+    75% {
+        transform: translateX(-5px);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .review-options {
+        gap: 10px;
+    }
+
+    .review-options button {
+
+        min-width: 100px;
+
+        padding: 12px 18px;
+
+        font-size: 26px;
+
+    }
+
+
+    .memory-grid {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+    }
+
+
+    .dot-family {
+
+        gap: 8px;
+
+    }
+
+
+    .dot-letter {
+
+        width: 85px;
+
+    }
+
+}
+
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     STAR COUNTER
+========================================================= -->
+
+<div class="star-counter">
+
+    ⭐ <span id="starCount">0</span> / 9
+
+</div>
+
+
+<!-- =========================================================
+     BUBO CELEBRATION
+========================================================= -->
+
+<div id="bubo-celebrate-container"></div>
+
+
+<div class="lesson">
+
+
+
+<!-- =========================================================
+     REVIEW 01 — SHAPE DETECTIVE
+========================================================= -->
+
+<section class="slide review-slide">
+
+    <div class="review-badge">
+        🔎 QUICK REVIEW
+    </div>
+
+    <h2>
+        Remember the Shape! 👀
+    </h2>
+
+    <p class="review-subtitle">
+        Let's wake up our memory before meeting new letters!
+    </p>
+
+    <div class="review-bubo-space">
+        <div id="review-bubo-1"></div>
+    </div>
+
+    <div class="review-question">
+        Which letters belong to the SAME shape family?
+    </div>
+
+    <div class="review-options">
+
+        <button onclick="reviewShape(this, 'جحخ')">
+            ج ح خ
+        </button>
+
+        <button onclick="reviewShape(this, 'دذرز')">
+            د ذ ر ز
+        </button>
+
+        <button onclick="reviewShape(this, 'بتيث')">
+            ب ت ي ث
+        </button>
+
+    </div>
+
+    <div id="reviewFeedback1" class="review-feedback"></div>
+
+    <button
+        class="primary-btn review-next"
+        onclick="nextSlide()">
+        I Remember! → 
+    </button>
+
+    <div class="teacher-name">
+        Miss: Nourhan Ali
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     REVIEW 02 — DOT DETECTIVE
+========================================================= -->
+
+<section class="slide review-slide">
+
+    <div class="review-badge">
+        👀 DOT DETECTIVE
+    </div>
+
+    <h2>
+        The Dots Tell the Secret! ✨
+    </h2>
+
+    <p class="review-subtitle">
+        Same shape... but the dots change everything!
+    </p>
+
+    <div class="dot-family">
+
+        <div class="dot-letter">
+            <span>ب</span>
+            <small>ONE dot</small>
+        </div>
+
+        <div class="dot-letter">
+            <span>ت</span>
+            <small>TWO dots</small>
+        </div>
+
+        <div class="dot-letter">
+            <span>ث</span>
+            <small>THREE dots</small>
+        </div>
+
+    </div>
+
+    <div id="review-bubo-2"></div>
+
+    <div class="review-question">
+        Which letter has THREE dots above it?
+    </div>
+
+    <div class="review-options">
+
+        <button onclick="reviewDots(this, 'ب')">
+            ب
+        </button>
+
+        <button onclick="reviewDots(this, 'ت')">
+            ت
+        </button>
+
+        <button onclick="reviewDots(this, 'ث')">
+            ث
+        </button>
+
+    </div>
+
+    <div id="reviewFeedback2" class="review-feedback"></div>
+
+    <button
+        class="primary-btn review-next"
+        onclick="nextSlide()">
+        Next Challenge →
+    </button>
+
+    <div class="teacher-name">
+        Miss: Nourhan Ali
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     REVIEW 03 — BUBO MEMORY CHALLENGE
+========================================================= -->
+
+<section class="slide review-slide">
+
+    <div class="review-badge">
+        🦉 BUBO MEMORY CHALLENGE
+    </div>
+
+    <h2>
+        Can You Still Spot Them? 🧠✨
+    </h2>
+
+    <p class="review-subtitle">
+        Bubo mixed the letters! Find the letter he asks for.
+    </p>
+
+    <div id="review-bubo-3"></div>
+
+    <div class="memory-question">
+        Find the letter:
+        <strong>خ</strong>
+    </div>
+
+    <div class="memory-grid">
+
+        <button onclick="memoryAnswer(this, 'ج')">
+            ج
+        </button>
+
+        <button onclick="memoryAnswer(this, 'خ')">
+            خ
+        </button>
+
+        <button onclick="memoryAnswer(this, 'ح')">
+            ح
+        </button>
+
+        <button onclick="memoryAnswer(this, 'د')">
+            د
+        </button>
+
+    </div>
+
+    <div id="reviewFeedback3" class="review-feedback"></div>
+
+    <button
+        class="primary-btn review-next"
+        onclick="nextSlide()">
+        Meet Today's New Letters! 🌟
+    </button>
+
+    <div class="teacher-name">
+        Miss: Nourhan Ali
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     01 — OPENING
+========================================================= -->
+
+<section class="slide active">
+
+    <div class="ocean-star os1">✦</div>
+    <div class="ocean-star os2">✧</div>
+    <div class="ocean-star os3">✦</div>
+    <div class="ocean-star os4">✧</div>
+
+    <div class="bubble b1"></div>
+    <div class="bubble b2"></div>
+    <div class="bubble b3"></div>
+    <div class="bubble b4"></div>
+    <div class="bubble b5"></div>
+
+    <div class="kicker">
+        MISSION 04
+    </div>
+
+    <h1>
+        Dive Deeper! 🌊<br>
+        <span class="nowrap-line">
+            Meet the Twin Sisters & Whale Brothers! 🐋
+        </span>
+    </h1>
+
+    <div id="bubo-container"></div>
+
+    <p class="question">
+
+        Something strange is waiting under the sea... 👀
+
+    </p>
+
+    <button
+        class="primary-btn"
+        onclick="nextSlide()">
+
+        Dive In! 🌊
+
+    </button>
+
+    <div class="teacher-name">
+        Miss: Nourhan Ali
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     02 — QUESTION HOOK
+========================================================= -->
+
+<section class="slide">
+
+    <div class="kicker">
+        QUESTION HOOK
+    </div>
+
+    <h2>
+        👀 Can You Spot the Sisters?
+    </h2>
+
+    <div
+        class="arabic"
+        style="
+        font-size:150px;
+        letter-spacing:25px;
+        margin:15px;
+        ">
+
+        س ش
+
+    </div>
+
+    <p class="question">
+
+        Look at these two sisters: <strong>س</strong> and <strong>ش</strong>!
+
+        <br>
+
+        They have three sharp little teeth!
+
+        <br><br>
+
+        But wait...
+
+        <br>
+
+        Why does one sister look so shiny with three sparkling stars
+        on her head? ✨
+
+    </p>
+
+</section>
+
+
+<!-- =========================================================
+     03 — TWIN SISTERS
+========================================================= -->
+
+<section class="slide">
+
+    <div class="kicker">
+        DISCOVERY
+    </div>
+
+    <h2>
+        The Twin Sisters 👭
+    </h2>
+
+    <div class="family">
+
+        <div class="family-card">
+
+            <div class="family-letter arabic">
+                س
+            </div>
+
+            <div class="family-name">
+                Seen
+            </div>
+
+            <div class="dot-info">
+                no dots
+            </div>
+
+        </div>
+
+        <div class="family-card">
+
+            <div class="family-letter arabic">
+                ش
+            </div>
+
+            <div class="family-name">
+                Sheen
+            </div>
+
+            <div class="dot-info">
+                three dots
+            </div>
+
+        </div>
+
+    </div>
+
+    <p class="question">
+
+        Same beautiful shape...
+
+        <br>
+
+        but one sister wears THREE stars! ⭐⭐⭐
+
+    </p>
+
+</section>
+
+
+<!-- =========================================================
+     04 — SEEN
+========================================================= -->
+
+<section class="slide">
+
+    <div class="kicker">
+        LETTER 12
+    </div>
+
+    <h2>
+        Meet Seen س
+    </h2>
+
+    <div class="letter-card">
+
+        <div class="big-letter arabic">
+            س
+        </div>
+
+        <div class="letter-title">
+            Seen
+        </div>
+
+        <p style="margin-top:8px;">
+            The Smiling Teeth Sister
+        </p>
+
+    </div>
+
+    <p class="question">
+
+        If you turn <strong>س</strong> sideways...
+
+        <br>
+
+        doesn't it look a little like the English letter
+        <strong>W</strong>? 👀
+
+    </p>
+
+</section>
+
+
+<!-- =========================================================
+     05 — SEEN ENGLISH
+========================================================= -->
+
+<section class="slide">
+
+    <div class="kicker">
+        REAL-LIFE CONNECTION
+    </div>
+
+    <h2>
+        Seen Meets English ☀️
+    </h2>
+
+    <div class="english-card">
+
+        <div class="english-word">
+            S — Sun ☀️
+        </div>
+
+        <div class="sound">
+            Sssss...
+        </div>
+
+        <p class="subtitle">
+
+            The sound can remind you of the
+            <strong>S</strong> in:
+
+            <br><br>
+
+            <strong>Sun</strong>
+            &nbsp; • &nbsp;
+            <strong>Snake</strong>
+
+        </p>
+
+    </div>
+
+    <p class="question">
+
+        Can you make the snake sound
+        <strong>Sssss</strong>
+
+        without showing your tongue? 🐍
+
+    </p>
+
+</section>
+
+
+<!-- =========================================================
+     06 — SHEEN
+========================================================= -->
+
+<section class="slide">
+
+    <div class="kicker">
+        LETTER 13
+    </div>
+
+    <h2>
+        Meet Sheen ش
+    </h2>
+
+    <div class="letter-card">
+
+        <div class="big-letter arabic">
+            ش
+        </div>
+
+        <div class="letter-title">
+            Sheen
+        </div>
+
+        <p style="margin-top:8px;">
+            Three sparkling stars ⭐⭐⭐
+        </p>
+
+    </div>
+
+    <p class="question">
+
+        Hold on!
+
+        <br>
+
+        Is this sister telling us a secret? 🤫
+
+        <br>
+
+        Why is she whispering
+        <strong>Shhhhh</strong>
+        while wearing three shiny stars?!
+
+    </p>
+
+</section>
+
+
+<!-- =========================================================
+     07 — SHEEN ENGLISH
+========================================================= -->
+
+<section class="slide">
+
+    <div class="kicker">
+        SOUND CONNECTION
+    </div>
+
+    <h2>
+        Sheen Says "Shhhh" 🤫
+    </h2>
+
+    <div class="english-card">
+
+        <div class="english-word">
+            SH — Ship 🚢
+        </div>
+
+        <div class="sound">
+            Shhhhh...
+        </div>
+
+        <p class="subtitle">
+
+            Think of:
+
+            <br><br>
+
+            <strong>Ship</strong>
+
+            &nbsp; or &nbsp;
+
+            <strong>Shower</strong>
+
+        </p>
+
+    </div>
+
+    <p class="question">
+
+        Three stars on top...
+
+        <br>
+
+        and a secret sound underneath! ⭐⭐⭐🤫
+
+    </p>
+
+</section>
+
+
+<!-- =========================================================
+     08 — SISTERS GAME
+========================================================= -->
+
+<section class="slide">
+
+    <div class="kicker">
+        GAME 01
+    </div>
+
+    <h2>
+        ⭐ Find the Starry Sister
+    </h2>
+
+    <p class="question">
+
+        Which sister has THREE dots above her?
+
+    </p>
+
+    <div class="game-area">
+
+        <div class="options">
+
+            <button
+                class="option"
+                onclick="twinGame(this,'س')">
+                س
+            </button>
+
+            <button
+                class="option"
+                onclick="twinGame(this,'ش')">
+                ش
+            </button>
+
+            <button
+                class="option"
+                onclick="twinGame(this,'ص')">
+                ص
+            </button>
+
+            <button
+                class="option"
+                onclick="twinGame(this,'ض')">
+                ض
+            </button>
+
+        </div>
+
+        <div
+            id="twinFeedback"
+            class="feedback">
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     09 — WHALE HOOK
+========================================================= -->
+
+<section class="slide">
+
+    <div class="kicker">
+        NEW FAMILY
+    </div>
+
+    <h2>
+        🐋 Wait... What's Swimming Over There?
+    </h2>
+
+    <div class="whale">
+
+        <div class="whale-tail"></div>
+
+        <div class="whale-fin"></div>
+
+        <div class="water-spout">
+            💦
+        </div>
+
+    </div>
+
+    <p class="question">
+
+        Whoa! Look at these giant letters:
+
+        <strong>ص</strong> and <strong>ض</strong>!
+
+        <br>
+
+        Don't they look like a huge whale swimming in the ocean?
+
+    </p>
+
+</section>
+
+
+<!-- =========================================================
+     10 — SAD
+========================================================= -->
+
+<section class="slide">
+
+    <div class="kicker">
+        LETTER 14
+    </div>
+
+    <h2>
+        Meet Saad ص
+    </h2>
+
+    <div class="letter-card">
+
+        <div class="big-letter arabic">
+            ص
+        </div>
+
+        <div class="letter-title">
+            Saad
+        </div>
+
+        <p style="margin-top:8px;">
+            The Heavy Snake Sound
+        </p>
+
+    </div>
+
+    <p class="question">
+
+        What happens if a tiny <strong>S</strong>
+        eats a huge burger and becomes SUPER strong? 🍔💪
+
+        <br><br>
+
+        It turns into <strong>ص</strong>!
+
+    </p>
+
+</section>
+
+
+<!-- =========================================================
+     11 — SAD SOUND
+========================================================= -->
+
+<section class="slide">
+
+    <div class="kicker">
+        SOUND DISCOVERY
+    </div>
+
+    <h2>
+        ص — The Heavy S 🐍
+    </h2>
+
+    <div class="english-card">
+
+        <div class="english-word">
+            S — Strong Sound 💪
+        </div>
+
+        <div class="sound">
+            Swa... / Heavy S
+        </div>
+
+        <p class="subtitle">
+
+            It reminds us of the
+            <strong>S</strong>
+            sound...
+
+            <br>
+
+            but with a deeper, stronger feeling.
+
+        </p>
+
+    </div>
+
+    <p class="question">
+
+        Can you make your mouth round like a balloon
+        and try the strong sound? 🎈
+
+    </p>
+
+</section>
+
+
+<!-- =========================================================
+     12 — DAD
+========================================================= -->
+
+<section class="slide">
+
+    <div class="kicker">
+        LETTER 15
+    </div>
+
+    <h2>
+        Meet Daad ض
+    </h2>
+
+    <div class="letter-card">
+
+        <div class="big-letter arabic">
+            ض
+        </div>
+
+        <div class="letter-title">
+            Daad
+        </div>
+
+        <p style="margin-top:8px;">
+            The Rare Whale
+        </p>
+
+    </div>
+
+    <p class="question">
+
+        Wait...
+
+        <br>
+
+        Did this whale just blow a tiny water bubble
+        on top of its head?! 💦🐋
+
+    </p>
+
+</section>
+
+
+<!-- =========================================================
+     13 — DAD SOUND
+========================================================= -->
+
+<section class="slide">
+
+    <div class="kicker">
+        SOUND CONNECTION
+    </div>
+
+    <h2>
+        ض Has a Powerful Sound
+    </h2>
+
+    <div class="english-card">
+
+        <div class="english-word">
+            Heavy D
+        </div>
+
+        <div class="sound">
+            Dha...
+        </div>
+
+        <p class="subtitle">
+
+            A strong, heavy sound...
+
+            <br>
+
+            like a powerful whale moving through deep water. 🌊🐋
+
+        </p>
+
+    </div>
+
+    <p class="question">
+
+        Can you feel the strength of the sound?
+
+    </p>
+
+</section>
+
+
+<!-- =========================================================
+     14 — WHALE BROTHERS
+========================================================= -->
+
+<section class="slide">
+
+    <div class="kicker">
+        DISCOVERY
+    </div>
+
+    <h2>
+        The Whale Body Brothers 🐋🐋
+    </h2>
+
+    <div class="family">
+
+        <div class="family-card">
+
+            <div class="family-letter arabic">
+                ص
+            </div>
+
+            <div class="family-name">
+                Saad
+            </div>
+
+            <div class="dot-info">
+                no dot
+            </div>
+
+        </div>
+
+        <div class="family-card">
+
+            <div class="family-letter arabic">
+                ض
+            </div>
+
+            <div class="family-name">
+                Daad
+            </div>
+
+            <div class="dot-info">
+                one dot
+            </div>
+
+        </div>
+
+    </div>
+
+    <p class="question">
+
+        Same whale body...
+
+        <br>
+
+        but one has a little water bubble on top! 💦
+
+    </p>
+
+</section>
+
+
+<!-- =========================================================
+     15 — WHALE BODY GAME
+========================================================= -->
+
+<section class="slide">
+
+    <div class="kicker">
+        GAME 02
+    </div>
+
+    <h2>
+        🐋 Catch the Rare Whale
+    </h2>
+
+    <p class="question">
+
+        Which whale has ONE DOT?
+
+    </p>
+
+    <div class="game-area">
+
+        <div class="options">
+
+            <button
+                class="option"
+                onclick="whaleBodyGame(this,'ص')">
+                ص
+            </button>
+
+            <button
+                class="option"
+                onclick="whaleBodyGame(this,'ض')">
+                ض
+            </button>
+
+            <button
+                class="option"
+                onclick="whaleBodyGame(this,'س')">
+                س
+            </button>
+
+            <button
+                class="option"
+                onclick="whaleBodyGame(this,'ش')">
+                ش
+            </button>
+
+        </div>
+
+        <div
+            id="whaleBodyFeedback"
+            class="feedback">
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     16 — TA
+========================================================= -->
+
+<section class="slide">
+
+    <div class="kicker">
+        LETTER 16
+    </div>
+
+    <h2>
+        Meet Taa ط
+    </h2>
+
+    <div class="letter-card">
+
+        <div class="big-letter arabic">
+            ط
+        </div>
+
+        <div class="letter-title">
+            Taa
+        </div>
+
+        <p style="margin-top:8px;">
+            The Strong Captain
+        </p>
+
+    </div>
+
+    <p class="question">
+
+        Look!
+
+        <br>
+
+        The whale gave its head to a captain
+        carrying a tall ship mast! 🚢🐋
+
+    </p>
+
+</section>
+
+
+<!-- =========================================================
+     17 — TA SOUND
+========================================================= -->
+
+<section class="slide">
+
+    <div class="kicker">
+        SOUND CONNECTION
+    </div>
+
+    <h2>
+        ط — The Strong T
+    </h2>
+
+    <div class="english-card">
+
+        <div class="english-word">
+            T — Tall 🚢
+        </div>
+
+        <div class="sound">
+            Ta...
+        </div>
+
+        <p class="subtitle">
+
+            Think of the strong beginning sound
+            in:
+
+            <br><br>
+
+            <strong>Tall</strong>
+
+            &nbsp; • &nbsp;
+
+            <strong>Target</strong>
+
+        </p>
+
+    </div>
+
+    <p class="question">
+
+        Can you say <strong>Ta</strong>
+        with a brave captain's voice? 🫡
+
+    </p>
+
+</section>
+
+
+<!-- =========================================================
+     18 — DHa
+========================================================= -->
+
+<section class="slide">
+
+    <div class="kicker">
+        LETTER 17
+    </div>
+
+    <h2>
+        Meet Dhaa ظ
+    </h2>
+
+    <div class="letter-card">
+
+        <div class="big-letter arabic">
+            ظ
+        </div>
+
+        <div class="letter-title">
+            Dhaa
+        </div>
+
+        <p style="margin-top:8px;">
+            The Politeness Champion
+        </p>
+
+    </div>
+
+    <p class="question">
+
+        Hold on! 😮
+
+        <br>
+
+        Is this captain sticking his tongue out
+        while holding a tall flag?!
+
+    </p>
+
+</section>
+
+
+<!-- =========================================================
+     19 — DHa SOUND
+========================================================= -->
+
+<section class="slide">
+
+    <div class="kicker">
+        SOUND DISCOVERY
+    </div>
+
+    <h2>
+        ظ — The Heavy TH
+    </h2>
+
+    <div class="english-card">
+
+        <div class="english-word">
+            TH
+        </div>
+
+        <div class="sound">
+            Dha...
+        </div>
+
+        <p class="subtitle">
+
+            Think about the sound in:
+
+            <br><br>
+
+            <strong>TH</strong>
+
+            <br><br>
+
+            Bring the tip of your tongue gently forward.
+
+        </p>
+
+    </div>
+
+    <p class="question">
+
+        Try it gently...
+
+        <br>
+
+        Tongue out + strong sound! 👅
+
+    </p>
+
+</section>
+
+
+<!-- =========================================================
+     20 — HEAD BROTHERS
+========================================================= -->
+
+<section class="slide">
+
+    <div class="kicker">
+        DISCOVERY
+    </div>
+
+    <h2>
+        The Whale Head Brothers 🚢🐋
+    </h2>
+
+    <div class="family">
+
+        <div class="family-card">
+
+            <div class="family-letter arabic">
+                ط
+            </div>
+
+            <div class="family-name">
+                Taa
+            </div>
+
+            <div class="dot-info">
+                no dot
+            </div>
+
+        </div>
+
+        <div class="family-card">
+
+            <div class="family-letter arabic">
+                ظ
+            </div>
+
+            <div class="family-name">
+                Dhaa
+            </div>
+
+            <div class="dot-info">
+                one dot
+            </div>
+
+        </div>
+
+    </div>
+
+    <p class="question">
+
+        Same basic body...
+
+        <br>
+
+        Same tall mast...
+
+        <br>
+
+        But one has a dot! 🔵
+
+    </p>
+
+</section>
+
+
+<!-- =========================================================
+     21 — DOT PATTERN
+========================================================= -->
+
+<section class="slide">
+
+    <div class="kicker">
+        PATTERN DISCOVERY
+    </div>
+
+    <h2>
+        Look at What Happened! 🧩
+    </h2>
+
+    <div
+        class="arabic"
+        style="
+        font-size:95px;
+        line-height:1.7;
+        ">
+
+        س → ش
+
+        <br>
+
+        ص → ض
+
+        <br>
+
+        ط → ظ
+
+    </div>
+
+    <p class="question">
+
+        Same basic shape...
+
+        <br>
+
+        then the dot changes the identity.
+
+    </p>
+
+</section>
+
+
+<!-- =========================================================
+     22 — DOT FAMILY GAME
+========================================================= -->
+
+<section class="slide">
+
+    <div class="kicker">
+        GAME 03
+    </div>
+
+    <h2>
+        🔎 Find the Dot Partner
+    </h2>
+
+    <p class="question">
+
+        If I take <strong>ط</strong>
+        and add ONE DOT...
+
+        <br>
+
+        Which letter appears?
+
+    </p>
+
+    <div class="game-area">
+
+        <div class="options">
+
+            <button
+                class="option"
+                onclick="dotPartnerGame(this,'ط')">
+                ط
+            </button>
+
+            <button
+                class="option"
+                onclick="dotPartnerGame(this,'ظ')">
+                ظ
+            </button>
+
+            <button
+                class="option"
+                onclick="dotPartnerGame(this,'ض')">
+                ض
+            </button>
+
+            <button
+                class="option"
+                onclick="dotPartnerGame(this,'ش')">
+                ش
+            </button>
+
+        </div>
+
+        <div
+            id="dotPartnerFeedback"
+            class="feedback">
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     23 — SOUND DETECTIVE
+========================================================= -->
+
+<section class="slide">
+
+    <div class="kicker">
+        GAME 04
+    </div>
+
+    <h2>
+        👂 Sound Detective
+    </h2>
+
+    <p class="question">
+
+        Which sister makes the
+        <strong>Shhhhh</strong>
+        sound?
+
+    </p>
+
+    <div class="game-area">
+
+        <div class="options">
+
+            <button
+                class="option"
+                onclick="soundDetective(this,'س')">
+                س
+            </button>
+
+            <button
+                class="option"
+                onclick="soundDetective(this,'ش')">
+                ش
+            </button>
+
+            <button
+                class="option"
+                onclick="soundDetective(this,'ص')">
+                ص
+            </button>
+
+            <button
+                class="option"
+                onclick="soundDetective(this,'ط')">
+                ط
+            </button>
+
+        </div>
+
+        <div
+            id="soundDetectiveFeedback"
+            class="feedback">
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     24 — TONGUE DETECTIVE
+========================================================= -->
+
+<section class="slide">
+
+    <div class="kicker">
+        GAME 05
+    </div>
+
+    <h2>
+        👅 Tongue Detective
+    </h2>
+
+    <p class="question">
+
+        Which letter is connected to the heavy
+        <strong>TH</strong>
+        sound?
+
+    </p>
+
+    <div class="game-area">
+
+        <div class="options">
+
+            <button
+                class="option"
+                onclick="tongueGame(this,'س')">
+                س
+            </button>
+
+            <button
+                class="option"
+                onclick="tongueGame(this,'ض')">
+                ض
+            </button>
+
+            <button
+                class="option"
+                onclick="tongueGame(this,'ظ')">
+                ظ
+            </button>
+
+            <button
+                class="option"
+                onclick="tongueGame(this,'ط')">
+                ط
+            </button>
+
+        </div>
+
+        <div
+            id="tongueFeedback"
+            class="feedback">
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     25 — WHALE CATCHER
+========================================================= -->
+
+<section class="slide">
+
+    <div class="kicker">
+        NEW GAME
+    </div>
+
+    <h2>
+        🐋 Whale Catcher!
+    </h2>
+
+    <p class="question">
+
+        Catch the ONLY whale that has:
+
+        <strong>
+            a tall mast + one dot + tongue-out sound!
+        </strong>
+
+    </p>
+
+    <div class="ocean-game">
+
+        <button
+            class="ocean-letter one"
+            onclick="whaleCatcher(this,'ص')">
+            ص
+        </button>
+
+        <button
+            class="ocean-letter two"
+            onclick="whaleCatcher(this,'ط')">
+            ط
+        </button>
+
+        <button
+            class="ocean-letter three"
+            onclick="whaleCatcher(this,'ظ')">
+            ظ
+        </button>
+
+        <button
+            class="ocean-letter four"
+            onclick="whaleCatcher(this,'ض')">
+            ض
+        </button>
+
+        <div class="whale-catcher">
+            🪣
+        </div>
+
+    </div>
+
+    <div
+        id="whaleCatcherFeedback"
+        class="feedback">
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     26 — THREE FAMILIES
+========================================================= -->
+
+<section class="slide">
+
+    <div class="kicker">
+        BUILD THE MAP
+    </div>
+
+    <h2>
+        Three Families Under the Sea 🌊
+    </h2>
+
+    <div class="family">
+
+        <div class="family-card">
+
+            <div
+                class="arabic"
+                style="font-size:55px;">
+                س ش
+            </div>
+
+            <div class="family-name">
+                Twin Sisters
+            </div>
+
+            <div class="dot-info">
+                0 → 3 dots
+            </div>
+
+        </div>
+
+        <div class="family-card">
+
+            <div
+                class="arabic"
+                style="font-size:55px;">
+                ص ض
+            </div>
+
+            <div class="family-name">
+                Whale Bodies
+            </div>
+
+            <div class="dot-info">
+                0 → 1 dot
+            </div>
+
+        </div>
+
+        <div class="family-card">
+
+            <div
+                class="arabic"
+                style="font-size:55px;">
+                ط ظ
+            </div>
+
+            <div class="family-name">
+                Whale Heads
+            </div>
+
+            <div class="dot-info">
+                0 → 1 dot
+            </div>
+
+        </div>
+
+    </div>
+
+    <p class="question">
+
+        Can your eyes find the family
+        before your ears even hear the sound? 👀
+
+    </p>
+
+</section>
+
+
+<!-- =========================================================
+     27 — MEMORY MATCH
+========================================================= -->
+
+<section class="slide">
+
+    <div class="kicker">
+        GAME 06
+    </div>
+
+    <h2>
+        🧠 Ocean Memory Match
+    </h2>
+
+    <p class="subtitle">
+
+        Match the identical Arabic letters.
+
+    </p>
+
+    <div class="memory-grid">
+
+        <button
+            class="memory-tile"
+            onclick="memoryCard(this,'س')">
+
+            <div class="tile-inner">
+
+                <div class="tile-face tile-front">
+                    1
+                </div>
+
+                <div class="tile-face tile-back">
+                    س
+                </div>
+
+            </div>
+
+        </button>
+
+
+        <button
+            class="memory-tile"
+            onclick="memoryCard(this,'ظ')">
+
+            <div class="tile-inner">
+
+                <div class="tile-face tile-front">
+                    2
+                </div>
+
+                <div class="tile-face tile-back">
+                    ظ
+                </div>
+
+            </div>
+
+        </button>
+
+
+        <button
+            class="memory-tile"
+            onclick="memoryCard(this,'ض')">
+
+            <div class="tile-inner">
+
+                <div class="tile-face tile-front">
+                    3
+                </div>
+
+                <div class="tile-face tile-back">
+                    ض
+                </div>
+
+            </div>
+
+        </button>
+
+
+        <button
+            class="memory-tile"
+            onclick="memoryCard(this,'ش')">
+
+            <div class="tile-inner">
+
+                <div class="tile-face tile-front">
+                    4
+                </div>
+
+                <div class="tile-face tile-back">
+                    ش
+                </div>
+
+            </div>
+
+        </button>
+
+
+        <button
+            class="memory-tile"
+            onclick="memoryCard(this,'ش')">
+
+            <div class="tile-inner">
+
+                <div class="tile-face tile-front">
+                    5
+                </div>
+
+                <div class="tile-face tile-back">
+                    ش
+                </div>
+
+            </div>
+
+        </button>
+
+
+        <button
+            class="memory-tile"
+            onclick="memoryCard(this,'ط')">
+
+            <div class="tile-inner">
+
+                <div class="tile-face tile-front">
+                    6
+                </div>
+
+                <div class="tile-face tile-back">
+                    ط
+                </div>
+
+            </div>
+
+        </button>
+
+
+        <button
+            class="memory-tile"
+            onclick="memoryCard(this,'ظ')">
+
+            <div class="tile-inner">
+
+                <div class="tile-face tile-front">
+                    7
+                </div>
+
+                <div class="tile-face tile-back">
+                    ظ
+                </div>
+
+            </div>
+
+        </button>
+
+
+        <button
+            class="memory-tile"
+            onclick="memoryCard(this,'س')">
+
+            <div class="tile-inner">
+
+                <div class="tile-face tile-front">
+                    8
+                </div>
+
+                <div class="tile-face tile-back">
+                    س
+                </div>
+
+            </div>
+
+        </button>
+
+
+        <button
+            class="memory-tile"
+            onclick="memoryCard(this,'ص')">
+
+            <div class="tile-inner">
+
+                <div class="tile-face tile-front">
+                    9
+                </div>
+
+                <div class="tile-face tile-back">
+                    ص
+                </div>
+
+            </div>
+
+        </button>
+
+
+        <button
+            class="memory-tile"
+            onclick="memoryCard(this,'ط')">
+
+            <div class="tile-inner">
+
+                <div class="tile-face tile-front">
+                    10
+                </div>
+
+                <div class="tile-face tile-back">
+                    ط
+                </div>
+
+            </div>
+
+        </button>
+
+
+        <button
+            class="memory-tile"
+            onclick="memoryCard(this,'ص')">
+
+            <div class="tile-inner">
+
+                <div class="tile-face tile-front">
+                    11
+                </div>
+
+                <div class="tile-face tile-back">
+                    ص
+                </div>
+
+            </div>
+
+        </button>
+
+
+        <button
+            class="memory-tile"
+            onclick="memoryCard(this,'ض')">
+
+            <div class="tile-inner">
+
+                <div class="tile-face tile-front">
+                    12
+                </div>
+
+                <div class="tile-face tile-back">
+                    ض
+                </div>
+
+            </div>
+
+        </button>
+
+    </div>
+
+    <div
+        id="memoryFeedback"
+        class="feedback">
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     28 — QUICK RECOGNITION
+========================================================= -->
+
+<section class="slide">
+
+    <div class="kicker">
+        GAME 07
+    </div>
+
+    <h2>
+        ⚡ Quick Recognition
+    </h2>
+
+    <p class="question">
+
+        Find <strong>ظ</strong> as quickly as you can!
+
+    </p>
+
+    <div class="game-area">
+
+        <div class="letter-grid">
+
+            <button
+                class="grid-letter"
+                onclick="quickFind(this,'ش')">
+                ش
+            </button>
+
+            <button
+                class="grid-letter"
+                onclick="quickFind(this,'ض')">
+                ض
+            </button>
+
+            <button
+                class="grid-letter"
+                onclick="quickFind(this,'ظ')">
+                ظ
+            </button>
+
+            <button
+                class="grid-letter"
+                onclick="quickFind(this,'ص')">
+                ص
+            </button>
+
+            <button
+                class="grid-letter"
+                onclick="quickFind(this,'ط')">
+                ط
+            </button>
+
+            <button
+                class="grid-letter"
+                onclick="quickFind(this,'س')">
+                س
+            </button>
+
+        </div>
+
+        <div
+            id="quickFeedback"
+            class="feedback">
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     29 — FINAL CHALLENGE
+========================================================= -->
+
+<section class="slide">
+
+    <div class="kicker">
+        FINAL BRAIN TEASER
+    </div>
+
+    <h2>
+        🧠 The Whale & Twins Challenge
+    </h2>
+
+    <p class="subtitle">
+
+        Four whales are swimming in the ocean...
+
+        <br><br>
+
+        <strong>
+            ص &nbsp; ض &nbsp; ط &nbsp; ظ
+        </strong>
+
+        <br><br>
+
+        But you need to catch the ONLY one that has:
+
+        <br>
+
+        🚢 a tall stick
+
+        <br>
+
+        💦 one dot
+
+        <br>
+
+        👅 a tongue-out heavy sound
+
+    </p>
+
+    <p class="question">
+
+        Which letter is it?
+
+    </p>
+
+    <div class="options">
+
+        <button
+            class="option"
+            onclick="finalChallenge(this,'ص')">
+            ص
+        </button>
+
+        <button
+            class="option"
+            onclick="finalChallenge(this,'ض')">
+            ض
+        </button>
+
+        <button
+            class="option"
+            onclick="finalChallenge(this,'ط')">
+            ط
+        </button>
+
+        <button
+            class="option"
+            onclick="finalChallenge(this,'ظ')">
+            ظ
+        </button>
+
+    </div>
+
+    <div
+        id="finalFeedback"
+        class="feedback">
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     30 — RECONSTRUCT
+========================================================= -->
+
+<section class="slide">
+
+    <div class="kicker">
+        YOU DISCOVERED IT
+    </div>
+
+    <h2>
+        Don't Just Memorize. See the Pattern. 👀
+    </h2>
+
+    <div
+        class="arabic"
+        style="
+        font-size:90px;
+        line-height:1.6;
+        ">
+
+        س → ش
+
+        <br>
+
+        ص → ض
+
+        <br>
+
+        ط → ظ
+
+    </div>
+
+    <p class="question">
+
+        Shape first.
+
+        <br>
+
+        Dot second.
+
+        <br>
+
+        Sound helps you confirm.
+
+    </p>
+
+    <p class="subtitle">
+
+        That's how your brain becomes faster at Arabic. 🧠✨
+
+    </p>
+
+</section>
+
+
+<!-- =========================================================
+     31 — JOURNEY
+========================================================= -->
+
+<section class="slide">
+
+    <div class="kicker">
+        YOUR JOURNEY
+    </div>
+
+    <h2>
+        Look How Far You've Come! 🗺️
+    </h2>
+
+    <div class="family">
+
+        <div class="family-card">
+
+            <div style="font-size:27px;font-weight:bold;">
+                Mission 1
+            </div>
+
+            <div
+                class="arabic"
+                style="font-size:42px;">
+                ا ب ت ث
+            </div>
+
+            <small>
+                ✓ Complete
+            </small>
+
+        </div>
+
+
+        <div class="family-card">
+
+            <div style="font-size:27px;font-weight:bold;">
+                Mission 2
+            </div>
+
+            <div
+                class="arabic"
+                style="font-size:42px;">
+                ج ح خ
+            </div>
+
+            <small>
+                ✓ Complete
+            </small>
+
+        </div>
+
+
+        <div class="family-card">
+
+            <div style="font-size:27px;font-weight:bold;">
+                Mission 3
+            </div>
+
+            <div
+                class="arabic"
+                style="font-size:42px;">
+                د ذ ر ز
+            </div>
+
+            <small>
+                ✓ Complete
+            </small>
+
+        </div>
+
+
+        <div class="family-card">
+
+            <div style="font-size:27px;font-weight:bold;">
+                Mission 4
+            </div>
+
+            <div
+                class="arabic"
+                style="font-size:42px;">
+                س ش ص ض ط ظ
+            </div>
+
+            <small>
+                ✓ Complete
+            </small>
+
+        </div>
+
+    </div>
+
+    <p class="question">
+
+        You now recognize even more Arabic letters! 🌟
+
+    </p>
+
+</section>
+
+
+<!-- =========================================================
+     32 — COMPLETE
+========================================================= -->
+
+<section class="slide">
+
+    <div class="kicker">
+        MISSION COMPLETE
+    </div>
+
+    <h1>
+        🎉 Mission 4 Complete!
+    </h1>
+
+    <p class="subtitle">
+
+        Today you discovered:
+
+    </p>
+
+    <div
+        class="arabic"
+        style="
+        font-size:85px;
+        margin:20px;
+        letter-spacing:18px;
+        ">
+
+        س ش ص ض ط ظ
+
+    </div>
+
+    <p class="subtitle">
+
+        Three amazing families:
+
+        <br><br>
+
+        👭 <strong>س ش</strong>
+        — The Twin Sisters
+
+        <br>
+
+        🐋 <strong>ص ض</strong>
+        — The Whale Bodies
+
+        <br>
+
+        🚢 <strong>ط ظ</strong>
+        — The Whale Heads
+
+        <br><br>
+
+        Shape + Dot + Sound = Faster Recognition 🧠✨
+
+    </p>
+
+    <div class="teacher-name">
+        Miss: Nourhan Ali
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     33 — NEXT MISSION
+========================================================= -->
+
+<section class="slide">
+
+    <div class="kicker">
+        NEXT MISSION 🔮
+    </div>
+
+    <h1>
+
+        Wait...
+
+        <br>
+
+        More Letters Are Coming! 👀
+
+    </h1>
+
+    <p class="subtitle">
+
+        You've learned families...
+
+        <br>
+
+        you've learned dots...
+
+        <br>
+
+        you've connected Arabic with English...
+
+        <br>
+
+        and now you've become a real letter detective. 🕵️
+
+    </p>
+
+    <div
+        class="arabic"
+        style="
+        font-size:90px;
+        margin:25px;
+        letter-spacing:20px;
+        ">
+
+        ع غ ف ق 
+
+    </div>
+
+    <p class="question">
+
+        What mystery will the next letters bring? 🌟
+
+    </p>
+
+    <p
+        style="
+        margin-top:20px;
+        font-size:21px;
+        font-weight:bold;
+        ">
+
+        See you in Mission 5! 🚀
+
+    </p>
+
+    <div class="teacher-name">
+        Miss: Nourhan Ali
+    </div>
+
+</section>
+
+
+</div>
+
+
+<!-- =========================================================
+     PROGRESS
+========================================================= -->
+
+<div class="progress">
+
+    <div
+        id="progressBar"
+        class="progress-bar">
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     NAVIGATION
+========================================================= -->
+
+<div class="nav">
+
+    <button onclick="prevSlide()">
+        ‹
+    </button>
+
+    <button onclick="nextSlide()">
+        ›
+    </button>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   STARS
+========================================================= */
+
+let starsEarned = 0;
+
+const starredGames = new Set();
+
+function awardStar(gameId){
+
+    if(starredGames.has(gameId))
+        return;
+
+    starredGames.add(gameId);
+
+    starsEarned++;
+
+    document.getElementById("starCount")
+        .textContent = starsEarned;
+
+    launchBalloons();
+
+    launchCelebrations();
+
+    celebrateBubo();
+
+}
+
+
+/* =========================================================
+   BALLOONS
+========================================================= */
+
+function launchBalloons(){
+
+    const colors = [
+
+        "#36a8b0",
+        "#4c9bc4",
+        "#e6b75f",
+        "#63b89d",
+        "#5f88c9",
+        "#d77b62"
+
+    ];
+
+    for(let i=0;i<10;i++){
+
+        const balloon =
+            document.createElement("div");
+
+        balloon.className =
+            "balloon";
+
+        balloon.style.left =
+            Math.random()*100+"vw";
+
+        balloon.style.background =
+            colors[
+                Math.floor(
+                    Math.random()*colors.length
+                )
+            ];
+
+        document.body.appendChild(
+            balloon
+        );
+
+        setTimeout(
+            ()=>{
+                balloon.remove();
+            },
+            4000
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   CELEBRATIONS
+========================================================= */
+
+function launchCelebrations(){
+
+    const emojis = [
+
+        "🥳",
+        "🎉",
+        "🎊",
+        "✨",
+        "⭐",
+        "🐋",
+        "🌊"
+
+    ];
+
+    for(let i=0;i<16;i++){
+
+        const item =
+            document.createElement("div");
+
+        item.className =
+            "celebration";
+
+        item.textContent =
+            emojis[
+                Math.floor(
+                    Math.random()*emojis.length
+                )
+            ];
+
+        item.style.left =
+            Math.random()*100+"vw";
+
+        item.style.animationDelay =
+            Math.random()*.8+"s";
+
+        document.body.appendChild(
+            item
+        );
+
+        setTimeout(
+            ()=>{
+                item.remove();
+            },
+            4200
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   BUBO CELEBRATION
+========================================================= */
+
+let buboCelebrateReady = false;
+
+let celebrateHideTimeout = null;
+
+const buboCelebratePhrases = [
+
+    "Yes! Amazing job! 🎉",
+
+    "You caught it! 🐋",
+
+    "Fantastic, Explorer! 🌊",
+
+    "Perfect! Keep going! ⭐",
+
+    "You spotted the pattern! 👀",
+
+    "Woohoo! That's correct! 🎊"
+
+];
+
+function celebrateBubo(){
+
+    const container =
+        document.getElementById(
+            "bubo-celebrate-container"
+        );
+
+    if(!container)
+        return;
+
+    clearTimeout(
+        celebrateHideTimeout
+    );
+
+    container.classList.remove(
+        "show"
+    );
+
+    void container.offsetWidth;
+
+    container.classList.add(
+        "show"
+    );
+
+    if(
+        buboCelebrateReady &&
+        typeof Bubo !== "undefined"
+    ){
+
+        Bubo.init(
+            "#bubo-celebrate-container"
+        );
+
+        const phrase =
+            buboCelebratePhrases[
+                Math.floor(
+                    Math.random() *
+                    buboCelebratePhrases.length
+                )
+            ];
+
+        Bubo.happy(
+            phrase
+        );
+
+    }
+
+    celebrateHideTimeout =
+        setTimeout(()=>{
+
+            container.classList.remove(
+                "show"
+            );
+
+        },3200);
+
+}
+
+
+/* =========================================================
+   SLIDE SYSTEM
+========================================================= */
+
+let currentSlide = 0;
+
+const slides =
+    document.querySelectorAll(
+        ".slide"
+    );
+
+const progressBar =
+    document.getElementById(
+        "progressBar"
+    );
+
+function showSlide(index){
+
+    if(index<0)
+        index=0;
+
+    if(index>=slides.length)
+        index=slides.length-1;
+
+    slides.forEach(
+        slide=>{
+
+            slide.classList.remove(
+                "active"
+            );
+
+        }
+    );
+
+    slides[index]
+        .classList.add(
+            "active"
+        );
+
+    currentSlide =
+        index;
+
+    progressBar.style.width =
+        ((index+1)/slides.length*100)
+        + "%";
+
+    const celebration =
+        document.getElementById(
+            "bubo-celebrate-container"
+        );
+
+    if(celebration){
+
+        celebration.classList.remove(
+            "show"
+        );
+
+    }
+
+}
+
+function nextSlide(){
+
+    if(
+        currentSlide <
+        slides.length-1
+    ){
+
+        showSlide(
+            currentSlide+1
+        );
+
+    }
+
+}
+
+function prevSlide(){
+
+    if(currentSlide>0){
+
+        showSlide(
+            currentSlide-1
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   GAME 01 — TWIN SISTERS
+========================================================= */
+
+function twinGame(button,letter){
+
+    const feedback =
+        document.getElementById(
+            "twinFeedback"
+        );
+
+    if(letter==="ش"){
+
+        button.classList.add(
+            "correct"
+        );
+
+        feedback.innerHTML =
+            "⭐ Yes! ش has THREE dots above!";
+
+        awardStar(
+            "twin"
+        );
+
+        if(typeof Bubo !== "undefined")
+            Bubo.proud(
+                "Three stars! You found Sheen! ⭐⭐⭐"
+            );
+
+    }else{
+
+        button.classList.add(
+            "wrong"
+        );
+
+        feedback.innerHTML =
+            "Look above the letter... how many stars can you see? 👀";
+
+        if(typeof Bubo !== "undefined")
+            Bubo.thinking(
+                "Look at the top! 👀"
+            );
+
+        setTimeout(
+            ()=>{
+                button.classList.remove(
+                    "wrong"
+                );
+            },
+            450
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   GAME 02 — WHALE BODY
+========================================================= */
+
+function whaleBodyGame(button,letter){
+
+    const feedback =
+        document.getElementById(
+            "whaleBodyFeedback"
+        );
+
+    if(letter==="ض"){
+
+        button.classList.add(
+            "correct"
+        );
+
+        feedback.innerHTML =
+            "🐋💦 Correct! ض has ONE dot above!";
+
+        awardStar(
+            "whaleBody"
+        );
+
+    }else{
+
+        button.classList.add(
+            "wrong"
+        );
+
+        feedback.innerHTML =
+            "Look carefully... which whale has one dot?";
+
+        setTimeout(
+            ()=>{
+                button.classList.remove(
+                    "wrong"
+                );
+            },
+            450
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   GAME 03 — DOT PARTNER
+========================================================= */
+
+function dotPartnerGame(button,letter){
+
+    const feedback =
+        document.getElementById(
+            "dotPartnerFeedback"
+        );
+
+    if(letter==="ظ"){
+
+        button.classList.add(
+            "correct"
+        );
+
+        feedback.innerHTML =
+            "✨ Exactly! ط + one dot = ظ";
+
+        awardStar(
+            "dotPartner"
+        );
+
+    }else{
+
+        button.classList.add(
+            "wrong"
+        );
+
+        feedback.innerHTML =
+            "Start with ط... now add ONE dot.";
+
+        setTimeout(
+            ()=>{
+                button.classList.remove(
+                    "wrong"
+                );
+            },
+            450
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   GAME 04 — SOUND
+========================================================= */
+
+function soundDetective(button,letter){
+
+    const feedback =
+        document.getElementById(
+            "soundDetectiveFeedback"
+        );
+
+    if(letter==="ش"){
+
+        button.classList.add(
+            "correct"
+        );
+
+        feedback.innerHTML =
+            "🤫 Shhhhh! Exactly! ش = SH sound.";
+
+        awardStar(
+            "sound"
+        );
+
+    }else{
+
+        button.classList.add(
+            "wrong"
+        );
+
+        feedback.innerHTML =
+            "Think: Ship... Shower... Shhhhh!";
+
+        setTimeout(
+            ()=>{
+                button.classList.remove(
+                    "wrong"
+                );
+            },
+            450
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   GAME 05 — TONGUE
+========================================================= */
+
+function tongueGame(button,letter){
+
+    const feedback =
+        document.getElementById(
+            "tongueFeedback"
+        );
+
+    if(letter==="ظ"){
+
+        button.classList.add(
+            "correct"
+        );
+
+        feedback.innerHTML =
+            "👅 Yes! ظ is our heavy TH letter.";
+
+        awardStar(
+            "tongue"
+        );
+
+    }else{
+
+        button.classList.add(
+            "wrong"
+        );
+
+        feedback.innerHTML =
+            "Think: tongue forward + heavy TH.";
+
+        setTimeout(
+            ()=>{
+                button.classList.remove(
+                    "wrong"
+                );
+            },
+            450
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   GAME 06 — MEMORY
+========================================================= */
+
+let firstMemory = null;
+
+let secondMemory = null;
+
+let lockMemory = false;
+
+let matchedPairs = 0;
+
+function memoryCard(button,letter){
+
+    if(lockMemory)
+        return;
+
+    if(
+        button.classList.contains(
+            "matched"
+        )
+    )
+        return;
+
+    if(button===firstMemory)
+        return;
+
+    button.classList.add(
+        "revealed"
+    );
+
+    if(!firstMemory){
+
+        firstMemory = {
+            button,
+            letter
+        };
+
+        return;
+    }
+
+    secondMemory = {
+        button,
+        letter
+    };
+
+    if(
+        firstMemory.letter ===
+        secondMemory.letter
+    ){
+
+        firstMemory.button
+            .classList.add(
+                "matched"
+            );
+
+        secondMemory.button
+            .classList.add(
+                "matched"
+            );
+
+        matchedPairs++;
+
+        document.getElementById(
+            "memoryFeedback"
+        ).innerHTML =
+            "✨ Match!";
+
+        if(matchedPairs===6){
+
+            document.getElementById(
+                "memoryFeedback"
+            ).innerHTML =
+                "🏆 AMAZING! You matched all six families!";
+
+            awardStar(
+                "memory"
+            );
+
+        }
+
+        firstMemory=null;
+
+        secondMemory=null;
+
+    }else{
+
+        lockMemory=true;
+
+        document.getElementById(
+            "memoryFeedback"
+        ).innerHTML =
+            "Almost! Watch the shape carefully. 👀";
+
+        setTimeout(()=>{
+
+            firstMemory.button
+                .classList.remove(
+                    "revealed"
+                );
+
+            secondMemory.button
+                .classList.remove(
+                    "revealed"
+                );
+
+            firstMemory=null;
+
+            secondMemory=null;
+
+            lockMemory=false;
+
+        },800);
+
+    }
+
+}
+
+
+/* =========================================================
+   GAME 07 — QUICK
+========================================================= */
+
+function quickFind(button,letter){
+
+    const feedback =
+        document.getElementById(
+            "quickFeedback"
+        );
+
+    if(letter==="ظ"){
+
+        button.classList.add(
+            "correct"
+        );
+
+        feedback.innerHTML =
+            "⚡ FAST! You found ظ!";
+
+        awardStar(
+            "quick"
+        );
+
+    }else{
+
+        button.classList.add(
+            "wrong"
+        );
+
+        feedback.innerHTML =
+            "Keep looking! 👀";
+
+        setTimeout(
+            ()=>{
+                button.classList.remove(
+                    "wrong"
+                );
+            },
+            300
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   GAME 08 — WHALE CATCHER
+========================================================= */
+
+function whaleCatcher(button,letter){
+
+    const feedback =
+        document.getElementById(
+            "whaleCatcherFeedback"
+        );
+
+    if(letter==="ظ"){
+
+        button.classList.add(
+            "correct"
+        );
+
+        feedback.innerHTML =
+            "🐋🎉 YOU CAUGHT IT! ظ has the tall mast + dot + heavy TH!";
+
+        awardStar(
+            "whaleCatcher"
+        );
+
+        if(typeof Bubo !== "undefined")
+            Bubo.excited(
+                "You caught the whale! 🐋🎉"
+            );
+
+    }else{
+
+        button.classList.add(
+            "wrong"
+        );
+
+        feedback.innerHTML =
+            "Not that whale! Look for the mast AND the dot. 👀";
+
+        setTimeout(
+            ()=>{
+                button.classList.remove(
+                    "wrong"
+                );
+            },
+            450
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   FINAL CHALLENGE
+========================================================= */
+
+function finalChallenge(button,letter){
+
+    const feedback =
+        document.getElementById(
+            "finalFeedback"
+        );
+
+    if(letter==="ظ"){
+
+        button.classList.add(
+            "correct"
+        );
+
+        feedback.innerHTML =
+            "🏆🐋 PERFECT! ظ is the whale-head brother with ONE DOT and the heavy TH sound!";
+
+        awardStar(
+            "final"
+        );
+
+        if(typeof Bubo !== "undefined")
+            Bubo.celebrate(
+                "You solved the mystery! 🌊🐋"
+            );
+
+    }else{
+
+        button.classList.add(
+            "wrong"
+        );
+
+        feedback.innerHTML =
+            "Think again: tall mast + one dot + tongue-out heavy TH.";
+
+        setTimeout(
+            ()=>{
+                button.classList.remove(
+                    "wrong"
+                );
+            },
+            450
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   TEACHER NAME
+========================================================= */
+
+document
+    .querySelectorAll(
+        ".slide"
+    )
+    .forEach(
+        slide=>{
+
+            if(
+                !slide.querySelector(
+                    ".teacher-name"
+                )
+            ){
+
+                const name =
+                    document.createElement(
+                        "div"
+                    );
+
+                name.className =
+                    "teacher-name";
+
+                name.textContent =
+                    "Miss: Nourhan Ali";
+
+                slide.appendChild(
+                    name
+                );
+
+            }
+
+        }
+    );
+
+
+/* =========================================================
+   KEYBOARD
+========================================================= */
+
+document.addEventListener(
+    "keydown",
+    function(event){
+
+        if(
+            event.key==="ArrowRight"
+        ){
+
+            nextSlide();
+
+        }
+
+        if(
+            event.key==="ArrowLeft"
+        ){
+
+            prevSlide();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   START
+========================================================= */
+
+
+/* =========================================================
+   REVIEW 01 — SHAPE DETECTIVE
+========================================================= */
+
+function reviewShape(button, answer) {
+
+    const feedback =
+        document.getElementById("reviewFeedback1");
+
+    const buttons =
+        button.parentElement.querySelectorAll("button");
+
+    buttons.forEach(btn => {
+        btn.classList.remove("correct", "wrong");
+    });
+
+
+    /*
+       Correct family:
+       ج ح خ
+    */
+
+    if (answer === "جحخ") {
+
+        button.classList.add("correct");
+
+        feedback.innerHTML =
+            "🎉 Correct! You remembered the family!";
+
+        /*
+           Bubo reaction
+        */
+
+        if (typeof Bubo !== "undefined") {
+
+            Bubo.proud(
+                "YES! ⭐ You remembered their shape family!"
+            );
+
+        }
+
+    } else {
+
+        button.classList.add("wrong");
+
+        feedback.innerHTML =
+            "Hmm... Look at the basic shape again. 👀";
+
+        if (typeof Bubo !== "undefined") {
+
+            Bubo.thinking(
+                "Look closely... the shape is the clue! 🤔"
+            );
+
+        }
+
+        setTimeout(() => {
+
+            button.classList.remove("wrong");
+
+        }, 500);
+
+    }
+
+}
+
+
+/* =========================================================
+   REVIEW 02 — DOT DETECTIVE
+========================================================= */
+
+function reviewDots(button, answer) {
+
+    const feedback =
+        document.getElementById("reviewFeedback2");
+
+    const buttons =
+        button.parentElement.querySelectorAll("button");
+
+    buttons.forEach(btn => {
+        btn.classList.remove("correct", "wrong");
+    });
+
+
+    if (answer === "ث") {
+
+        button.classList.add("correct");
+
+        feedback.innerHTML =
+            "⭐ Perfect! Three dots ABOVE!";
+
+        if (typeof Bubo !== "undefined") {
+
+            Bubo.excited(
+                "WOW! You found the THREE dots! ✨"
+            );
+
+        }
+
+    } else {
+
+        button.classList.add("wrong");
+
+        feedback.innerHTML =
+            "Count the dots again... 👀";
+
+        if (typeof Bubo !== "undefined") {
+
+            Bubo.confused(
+                "Hmm...? How many dots does it have? 🤨"
+            );
+
+        }
+
+        setTimeout(() => {
+
+            button.classList.remove("wrong");
+
+        }, 500);
+
+    }
+
+}
+
+
+/* =========================================================
+   REVIEW 03 — MEMORY CHALLENGE
+========================================================= */
+
+function memoryAnswer(button, answer) {
+
+    const feedback =
+        document.getElementById("reviewFeedback3");
+
+    const buttons =
+        button.parentElement.querySelectorAll("button");
+
+    buttons.forEach(btn => {
+        btn.classList.remove("correct", "wrong");
+    });
+
+
+    if (answer === "خ") {
+
+        button.classList.add("correct");
+
+        feedback.innerHTML =
+            "🏆 AMAZING! You found خ!";
+
+        if (typeof Bubo !== "undefined") {
+
+            Bubo.celebrate(
+                "AMAZING!! 🎉 You still remember خ!"
+            );
+
+        }
+
+    } else {
+
+        button.classList.add("wrong");
+
+        feedback.innerHTML =
+            "Not this one! Look at the dot position. 👀";
+
+        if (typeof Bubo !== "undefined") {
+
+            Bubo.sad(
+                "Almost! 🌸 Check the dot again."
+            );
+
+        }
+
+        setTimeout(() => {
+
+            button.classList.remove("wrong");
+
+        }, 500);
+
+    }
+
+}
+
+
+showSlide(0);
+
+</script>
+
+
+<!-- =========================================================
+     BUBO SCRIPTS
+========================================================= -->
+
+<script src="bubo/bubo.js"></script>
+
+<script src="bubo/bubo-loader.js"></script>
+
+<script>
+
+loadBubo(
+    "#bubo-celebrate-container"
+)
+.then(()=>{
+
+    buboCelebrateReady=true;
+
+})
+.catch(()=>{
+
+    buboCelebrateReady=false;
+
+});
+
+
+loadBubo(
+    "#bubo-container"
+)
+.then(()=>{
+
+    Bubo.happy(
+        "Ready to dive into a new adventure? 🌊🐋"
+    );
+
+});
+
+
+</script>
+
+
+</body>
+
+</html>

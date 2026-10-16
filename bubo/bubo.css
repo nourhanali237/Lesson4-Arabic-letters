@@ -1,0 +1,943 @@
+/* =====================================================
+   BUBO — BASE
+===================================================== */
+
+.bubo-wrapper {
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+
+/* =====================================================
+   SPEECH BUBBLE
+===================================================== */
+
+.bubo-speech {
+    width: 280px;
+    min-height: 100px;
+
+    background: white;
+
+    border: 3px solid #7865ae;
+    border-radius: 24px;
+
+    padding: 16px 20px;
+
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.55;
+
+    color: #46404f;
+
+    box-shadow:
+        0 12px 30px rgba(70, 50, 100, 0.14);
+
+    position: relative;
+
+    margin-bottom: 18px;
+
+    animation: buboBubbleAppear 0.4s ease;
+}
+
+
+/* Bubble tail */
+
+.bubo-speech::after {
+    content: "";
+
+    position: absolute;
+
+    bottom: -18px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-top: 20px solid #7865ae;
+}
+
+
+.bubo-speech::before {
+    content: "";
+
+    position: absolute;
+
+    bottom: -13px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    border-top: 16px solid white;
+
+    z-index: 2;
+}
+
+
+/* =====================================================
+   BUBO
+===================================================== */
+
+.bubo {
+    width: 180px;
+    height: 210px;
+
+    position: relative;
+
+    transform-origin: center bottom;
+
+    animation:
+        buboIdle 3s ease-in-out infinite;
+}
+
+
+/* =====================================================
+   EARS
+===================================================== */
+
+.bubo-ear {
+    width: 63px;
+    height: 78px;
+
+    background: #806bb3;
+
+    position: absolute;
+    top: 0;
+
+    border-radius:
+        55% 55% 20% 20%;
+
+    z-index: 1;
+
+    transition: 0.3s ease;
+}
+
+
+.bubo-ear.left {
+    left: 18px;
+    transform: rotate(-20deg);
+}
+
+
+.bubo-ear.right {
+    right: 18px;
+    transform: rotate(20deg);
+}
+
+
+.bubo-ear::after {
+    content: "";
+
+    width: 36px;
+    height: 50px;
+
+    background: #d9d0ef;
+
+    position: absolute;
+
+    left: 50%;
+    top: 13px;
+
+    transform: translateX(-50%);
+
+    border-radius:
+        55% 55% 20% 20%;
+}
+
+
+/* =====================================================
+   HEAD
+===================================================== */
+
+.bubo-head {
+    width: 160px;
+    height: 145px;
+
+    background: #927dc2;
+
+    position: absolute;
+
+    left: 50%;
+    top: 34px;
+
+    transform: translateX(-50%);
+
+    border-radius:
+        50% 50% 47% 47%;
+
+    z-index: 3;
+
+    box-shadow:
+        inset 0 -10px rgba(0,0,0,0.04);
+
+    transition: 0.3s ease;
+}
+
+
+/* =====================================================
+   FACE
+===================================================== */
+
+.bubo-face {
+    width: 125px;
+    height: 112px;
+
+    background: #f0ebfa;
+
+    position: absolute;
+
+    left: 50%;
+    top: 18px;
+
+    transform: translateX(-50%);
+
+    border-radius: 50%;
+}
+
+
+/* =====================================================
+   EYES
+===================================================== */
+
+.bubo-eye {
+    width: 48px;
+    height: 48px;
+
+    background: white;
+
+    border-radius: 50%;
+
+    position: absolute;
+    top: 25px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    transition: 0.25s ease;
+
+    box-shadow:
+        0 4px 10px rgba(0,0,0,0.08);
+}
+
+
+.bubo-eye.left {
+    left: 8px;
+}
+
+
+.bubo-eye.right {
+    right: 8px;
+}
+
+
+/* =====================================================
+   PUPILS
+===================================================== */
+
+.bubo-pupil {
+    width: 21px;
+    height: 21px;
+
+    background: #302c3d;
+
+    border-radius: 50%;
+
+    position: relative;
+
+    transition: 0.25s ease;
+}
+
+
+.bubo-pupil::after {
+    content: "";
+
+    width: 7px;
+    height: 7px;
+
+    background: white;
+
+    border-radius: 50%;
+
+    position: absolute;
+
+    top: 3px;
+    left: 4px;
+}
+
+
+/* =====================================================
+   EYEBROWS
+===================================================== */
+
+.bubo-eyebrow {
+    width: 32px;
+    height: 7px;
+
+    background: #55456f;
+
+    border-radius: 10px;
+
+    position: absolute;
+
+    top: 15px;
+
+    z-index: 5;
+
+    transition: 0.3s ease;
+}
+
+
+.bubo-eyebrow.left {
+    left: 20px;
+    transform: rotate(-8deg);
+}
+
+
+.bubo-eyebrow.right {
+    right: 20px;
+    transform: rotate(8deg);
+}
+
+
+/* =====================================================
+   BEAK
+===================================================== */
+
+.bubo-beak {
+    width: 0;
+    height: 0;
+
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+
+    border-top: 25px solid #f0b54b;
+
+    position: absolute;
+
+    left: 50%;
+    top: 61px;
+
+    transform: translateX(-50%);
+
+    transition: 0.25s ease;
+}
+
+
+/* =====================================================
+   BODY
+===================================================== */
+
+.bubo-body {
+    width: 125px;
+    height: 105px;
+
+    background: #806bb3;
+
+    position: absolute;
+
+    left: 50%;
+    bottom: 0;
+
+    transform: translateX(-50%);
+
+    border-radius:
+        55% 55% 35% 35%;
+
+    z-index: 2;
+}
+
+
+/* =====================================================
+   BELLY
+===================================================== */
+
+.bubo-belly {
+    width: 83px;
+    height: 72px;
+
+    background: #ddd4f0;
+
+    position: absolute;
+
+    left: 50%;
+    bottom: 10px;
+
+    transform: translateX(-50%);
+
+    border-radius: 50%;
+}
+
+
+/* =====================================================
+   WINGS
+===================================================== */
+
+.bubo-wing {
+    width: 43px;
+    height: 85px;
+
+    background: #7560a8;
+
+    position: absolute;
+    top: 20px;
+
+    border-radius: 50%;
+
+    transition: 0.35s ease;
+
+    z-index: 5;
+}
+
+
+.bubo-wing.left {
+    left: 5px;
+    transform: rotate(25deg);
+}
+
+
+.bubo-wing.right {
+    right: 5px;
+    transform: rotate(-25deg);
+}
+
+
+/* =====================================================
+   FEET
+===================================================== */
+
+.bubo-foot {
+    width: 34px;
+    height: 14px;
+
+    background: #f0b54b;
+
+    position: absolute;
+
+    bottom: -7px;
+
+    border-radius: 50%;
+
+    z-index: 1;
+}
+
+
+.bubo-foot.left {
+    left: 42px;
+}
+
+
+.bubo-foot.right {
+    right: 42px;
+}
+
+
+/* =====================================================
+   HAPPY
+===================================================== */
+
+.bubo.happy {
+    animation:
+        buboHappy 0.7s ease-in-out infinite;
+}
+
+
+.bubo.happy .bubo-wing.left {
+    transform:
+        rotate(-45deg)
+        translateY(-15px);
+}
+
+
+.bubo.happy .bubo-wing.right {
+    transform:
+        rotate(45deg)
+        translateY(-15px);
+}
+
+
+.bubo.happy .bubo-eye {
+    transform: scale(1.1);
+}
+
+
+/* =====================================================
+   THINKING
+===================================================== */
+
+.bubo.thinking {
+    animation:
+        buboThinking 2s ease-in-out infinite;
+}
+
+
+.bubo.thinking .bubo-head {
+    transform:
+        translateX(-50%)
+        rotate(8deg);
+}
+
+
+.bubo.thinking .bubo-wing.right {
+    transform:
+        rotate(-65deg)
+        translateY(-10px);
+}
+
+
+/* =====================================================
+   SURPRISED
+===================================================== */
+
+.bubo.surprised {
+    animation:
+        buboSurprised 0.8s ease-in-out;
+}
+
+
+.bubo.surprised .bubo-eye {
+    transform: scale(1.25);
+}
+
+
+.bubo.surprised .bubo-pupil {
+    transform: scale(0.8);
+}
+
+
+.bubo.surprised .bubo-beak {
+    transform:
+        translateX(-50%)
+        scale(1.25);
+}
+
+
+.bubo.surprised .bubo-wing.left {
+    transform:
+        rotate(-55deg)
+        translateX(-8px);
+}
+
+
+.bubo.surprised .bubo-wing.right {
+    transform:
+        rotate(55deg)
+        translateX(8px);
+}
+
+
+/* =====================================================
+   SAD
+===================================================== */
+
+.bubo.sad {
+    animation:
+        buboSad 2s ease-in-out infinite;
+}
+
+
+.bubo.sad .bubo-head {
+    transform:
+        translateX(-50%)
+        rotate(-8deg);
+}
+
+
+.bubo.sad .bubo-wing.left {
+    transform:
+        rotate(50deg)
+        translateY(15px);
+}
+
+
+.bubo.sad .bubo-wing.right {
+    transform:
+        rotate(-50deg)
+        translateY(15px);
+}
+
+
+.bubo.sad .bubo-eye {
+    transform: scaleY(0.8);
+}
+
+
+/* =====================================================
+   PROUD
+===================================================== */
+
+.bubo.proud {
+    animation:
+        buboProud 2s ease-in-out infinite;
+}
+
+
+.bubo.proud .bubo-head {
+    transform:
+        translateX(-50%)
+        rotate(3deg);
+}
+
+
+.bubo.proud .bubo-wing.left {
+    transform: rotate(70deg);
+}
+
+
+/* =====================================================
+   SLEEPY
+===================================================== */
+
+.bubo.sleepy {
+    animation:
+        buboSleepy 3s ease-in-out infinite;
+}
+
+
+.bubo.sleepy .bubo-eye {
+    transform: scaleY(0.18);
+}
+
+
+.bubo.sleepy .bubo-head {
+    transform:
+        translateX(-50%)
+        translateY(7px)
+        rotate(-5deg);
+}
+
+
+.bubo.sleepy .bubo-wing.left,
+.bubo.sleepy .bubo-wing.right {
+    transform:
+        translateY(15px);
+}
+
+
+/* =====================================================
+   SERIOUS
+===================================================== */
+
+.bubo.serious {
+    animation:
+        buboSerious 1.5s ease-in-out infinite;
+}
+
+
+.bubo.serious .bubo-eyebrow.left {
+    transform: rotate(15deg);
+}
+
+
+.bubo.serious .bubo-eyebrow.right {
+    transform: rotate(-15deg);
+}
+
+
+.bubo.serious .bubo-eye {
+    transform: scaleY(0.85);
+}
+
+
+/* =====================================================
+   TALKING
+===================================================== */
+
+.bubo.talking .bubo-beak {
+    animation:
+        buboTalkingBeak 0.22s ease-in-out infinite alternate;
+}
+
+
+.bubo.talking .bubo-head {
+    animation:
+        buboTalkingHead 0.45s ease-in-out infinite alternate;
+}
+
+
+/* =====================================================
+   ANIMATIONS
+===================================================== */
+
+@keyframes buboIdle {
+
+    0%,100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+
+@keyframes buboHappy {
+
+    0%,100% {
+        transform:
+            translateY(0)
+            rotate(0);
+    }
+
+    25% {
+        transform:
+            translateY(-18px)
+            rotate(-5deg);
+    }
+
+    50% {
+        transform:
+            translateY(0)
+            rotate(0);
+    }
+
+    75% {
+        transform:
+            translateY(-18px)
+            rotate(5deg);
+    }
+}
+
+
+@keyframes buboThinking {
+
+    0%,100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+
+@keyframes buboSurprised {
+
+    0% {
+        transform: translateY(0);
+    }
+
+    30% {
+        transform:
+            translateY(-25px)
+            scale(1.05);
+    }
+
+    60% {
+        transform: translateY(0);
+    }
+
+    80% {
+        transform: translateY(-8px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+
+@keyframes buboSad {
+
+    0%,100% {
+        transform: translateY(5px);
+    }
+
+    50% {
+        transform: translateY(10px);
+    }
+}
+
+
+@keyframes buboProud {
+
+    0%,100% {
+        transform:
+            translateY(0)
+            rotate(0);
+    }
+
+    50% {
+        transform:
+            translateY(-5px)
+            rotate(2deg);
+    }
+}
+
+
+@keyframes buboSleepy {
+
+    0%,100% {
+        transform: translateY(5px);
+    }
+
+    50% {
+        transform: translateY(12px);
+    }
+}
+
+
+@keyframes buboSerious {
+
+    0%,100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-3px);
+    }
+}
+
+
+@keyframes buboTalkingBeak {
+
+    from {
+        transform:
+            translateX(-50%)
+            scaleY(1);
+    }
+
+    to {
+        transform:
+            translateX(-50%)
+            scaleY(0.45);
+    }
+}
+
+
+@keyframes buboTalkingHead {
+
+    from {
+        transform:
+            translateX(-50%)
+            rotate(-1deg);
+    }
+
+    to {
+        transform:
+            translateX(-50%)
+            rotate(1deg);
+    }
+}
+
+
+@keyframes buboBubbleAppear {
+
+    from {
+        opacity: 0;
+        transform:
+            translateY(12px)
+            scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform:
+            translateY(0)
+            scale(1);
+    }
+}
+
+/* =====================================================
+   EXCITED
+===================================================== */
+
+.bubo.excited {
+    animation:
+        buboExcited 0.45s ease-in-out infinite;
+}
+
+
+.bubo.excited .bubo-wing.left {
+    transform:
+        rotate(-60deg)
+        translateY(-18px);
+}
+
+
+.bubo.excited .bubo-wing.right {
+    transform:
+        rotate(60deg)
+        translateY(-18px);
+}
+
+
+.bubo.excited .bubo-eye {
+    transform:
+        scale(1.15);
+}
+
+
+/* =====================================================
+   CONFUSED
+===================================================== */
+
+.bubo.confused {
+    animation:
+        buboConfused 1.5s ease-in-out infinite;
+}
+
+
+.bubo.confused .bubo-head {
+    transform:
+        translateX(-50%)
+        rotate(-10deg);
+}
+
+
+.bubo.confused .bubo-eyebrow.left {
+    transform:
+        rotate(-20deg);
+}
+
+
+.bubo.confused .bubo-eyebrow.right {
+    transform:
+        rotate(5deg);
+}
+
+
+/* =====================================================
+   EXCITED ANIMATION
+===================================================== */
+
+@keyframes buboExcited {
+
+    0%, 100% {
+        transform:
+            translateY(0)
+            scale(1);
+    }
+
+    50% {
+        transform:
+            translateY(-15px)
+            scale(1.04);
+    }
+
+}
+
+
+/* =====================================================
+   CONFUSED ANIMATION
+===================================================== */
+
+@keyframes buboConfused {
+
+    0%, 100% {
+        transform:
+            translateY(0);
+    }
+
+    50% {
+        transform:
+            translateY(-4px)
+            rotate(3deg);
+    }
+
+}
